@@ -43,16 +43,19 @@ This code configures the ```'/'``` endpoint (*https://your_c9_url/*), and return
 1. Run: ```sudo pip install -U flask-cors```
 2. Copy this into your `app.py` file:
     ```python
-      
+    ... 
     #imports and stuff above this comment
+    from flask_cors import CORS
       
+    ...
     # Don't repeat this line in the code
     app = Flask(__name__)
       
-    # Possible code
+    # More code
     CORS(app)
       
     #routes and stuff below
+    ...
       
     ```
 
