@@ -1,64 +1,73 @@
-# ![alt text](https://assets.breatheco.de/apis/img/images.php?blob&random&cat=icon&tags=breathecode,32) Flask
+# Flask Boilerplate 4Geeks Academy
 
-To install Flask in C9:
-
-First: Make sure you're using Python 3.6.6 of newer:
-  
-  ```pyenv install 3.6.6``` This could take a while
-  
-  ```pyenv global 3.6.6```
-
-1. Run the install command:
-  
-  ```sudo pip install Flask```
-
-2. Create a file, (```app.py```). Do not use flask.py, it can generate conflicts with the flask application.
-
-3. Paste this code into ```app.py```:
-  
-```python
-import os
-from flask import Flask, jsonify
-  
-app = Flask(__name__)
-  
-@app.route('/')
-def hello():
-    return jsonify({ "hello": "World" })
-  
-  
-app.run(host=os.getenv('IP', '0.0.0.0'),port=int(os.getenv('PORT', 8080)))
+1. Make sure you have python 3.6+
+```sh
+pyenv install 3.6.6
+sudo pip install pipenv
+pipenv shell
 ```
-  
-This code configures the ```'/'``` endpoint (*https://your_c9_url/*), and returns a string
 
-4. Click ```run```, C9 top bar. Remember to have the file opened. Alternatively you can run ```python app.py``` in your terminal to run the server manually.
+1. Run flask
+```sh
+$ flask run -h $IP -p $PORT
+```
 
-5. *voilá*, backend server running.
+Command Log
 
-## (Optional) Expanding your API
-
-#### To enable CORS
-  
-1. Run: ```sudo pip install -U flask-cors```
-2. Copy this into your `app.py` file:
-    ```python
-    ... 
-    #imports and stuff above this comment
-    from flask_cors import CORS
-      
-    ...
-    # Don't repeat this line in the code
-    app = Flask(__name__)
-      
-    # More code
-    CORS(app)
-      
-    #routes and stuff below
-    ...
-      
-    ```
-
-#### Awesome Documentation for your API
-  
-https://github.com/gangverk/flask-swagger
+python -version
+python --version
+pyenv
+pyenv install 3.6.6
+pyenv
+pipenv shell
+node -v
+pyenv global 3.6.6
+python --version
+pyenv global 3.6.6
+python --version
+sudo pip install pipenv
+pip install --upgrade pip
+python
+python --version
+pyenv
+pyenv shell
+pyenv shell 3.6.6
+python --version
+pyenv versions
+pipenv install flask
+pipenv install SQLAlchemy
+python3 app.py
+pipenv install flask_sqlalchemy
+python3 app.py
+postgree shell
+psql mydb
+service postgresql start
+sudo service postgresql start
+postgres psql
+psql
+python3 app.py
+pipenv install psycopg2
+python3 app.py
+python3 migration.py 
+flask
+flask run
+export FLASK_APP=app.py
+export FLASK_ENV=development
+flask run
+flask run -h $IP -p $PORT
+psql
+flask run -h $IP -p $PORT
+flask db init
+pipenv install Flask-Migrate
+flask db init
+flask db migrate
+flask run -h $IP -p $PORT
+flask db upgrade
+flask run -h $IP -p $PORT
+psql
+flask run -h $IP -p $PORT
+history
+git init
+git status
+git add .
+git commit -m 'first commit'
