@@ -7,6 +7,7 @@ pyenv global 3.6.6
 sudo pip install pipenv
 pip install --upgrade pip
 pipenv shell
+pipenv install
 ```
 
 1. Run flask
