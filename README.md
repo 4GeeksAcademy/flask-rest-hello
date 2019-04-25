@@ -13,6 +13,11 @@ pipenv install
 1. Run flask
 ```sh
 $ export FLASK_APP=app.py
+
+$ flask db init
+$ flask db migrate
+$ flask db upgrade
+
 $ flask run -h $IP -p $PORT
 ```
 
