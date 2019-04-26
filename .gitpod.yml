@@ -4,7 +4,7 @@ tasks:
     - init: >
         pipenv shell &&
         pipenv install &&
-        export FLASK_APP=src/app.py &&
+        export FLASK_APP=src/main.py &&
         export FLASK_ENV=development
 
       command: >
