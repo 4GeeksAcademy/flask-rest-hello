@@ -1,5 +1,12 @@
 ports:
     - port: 3000
 tasks:
-    - init: pipenv shell && pipenv install export FLASK_APP=src/app.py && export FLASK_ENV=development
-      command: pipenv shell && flask run -p 3000
+    - init: >
+        pipenv shell &&
+        pipenv install &&
+        export FLASK_APP=src/app.py &&
+        export FLASK_ENV=development
+
+      command: >
+        pipenv shell &&
+        flask run -p 3000
