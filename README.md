@@ -6,15 +6,23 @@ pipenv shell
 pipenv install
 ```
 
-1. Configure thde database
+2. Run the migrations
 ```sh
-$ flask db init
-$ flask db migrate
 $ flask db upgrade
-
 ```
 
-1. Run flask
+3. Run flask
 ```
 $ flask run -p 3000
+```
+
+## What to do next?
+
+There is an example API working with an database.
+
+## Migrate every time you change your models
+
+You have to generate the migrations for every update your make to your models:
+```
+$ flask db migrate
 ```
