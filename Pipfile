@@ -11,6 +11,7 @@ sqlalchemy = "*"
 flask-sqlalchemy = "*"
 psycopg2 = "*"
 flask-migrate = "*"
+flask-swagger = "*"
 
 [requires]
 python_version = "3.6"

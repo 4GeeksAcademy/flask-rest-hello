@@ -1,0 +1,7 @@
+ports:
+    - port: 3000
+tasks:
+    - command: pipenv shell
+    - command: pipenv install
+    - command: export FLASK_APP=src/app.py
+    - command: export FLASK_ENV=development
