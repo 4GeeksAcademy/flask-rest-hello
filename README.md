@@ -16,5 +16,5 @@ $ flask db upgrade
 
 1. Run flask
 ```
-$ flask run -h $IP -p $PORT
+$ flask run -p 3000
 ```
