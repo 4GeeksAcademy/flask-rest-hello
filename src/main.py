@@ -8,7 +8,7 @@ from flask_swagger import swagger
 from models import db, Person
 
 APP = Flask(__name__)
-APP.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:////tmp/database.db'
+APP.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get('DB_CONNECTION_STRING')
 APP.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 MIGRATE = Migrate(APP, db)
 db.init_app(APP)

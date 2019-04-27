@@ -12,6 +12,8 @@ flask-sqlalchemy = "*"
 flask-migrate = "*"
 flask-swagger = "*"
 psycopg2-binary = "*"
+eralchemy = "*"
+pygraphviz = "*"
 
 [requires]
 python_version = "3.6"
