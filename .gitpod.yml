@@ -4,13 +4,10 @@ ports:
     - port: 3000
       onOpen: open-preview
 tasks:
-    - command: echo "Welcome!"
     - init: >
-        cat > .env <<- "EOF"
-        DB_CONNECTION_STRING=sqlite:////tmp/database.db
+        echo "DB_CONNECTION_STRING=sqlite:////database.db
         FLASK_APP=src/main.py
-        FLASK_ENV=development
-        EOF;
+        FLASK_ENV=development" >> .env;
         pipenv install;
-
       command: pipenv run start;
+    - command: echo "Welcome!"
