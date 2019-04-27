@@ -2,14 +2,15 @@ image:
   file: .gitpod.dockerfile
 ports:
     - port: 3000
+      onOpen: open-preview
 tasks:
+    - command: echo "Welcome!"
     - init: >
-        cat > .env2 <<- "EOF"
+        cat > .env <<- "EOF"
         DB_CONNECTION_STRING=sqlite:////tmp/database.db
         FLASK_APP=src/main.py
         FLASK_ENV=development
         EOF;
         pipenv install;
 
-      command: >
-        pipenv run start;
+      command: pipenv run start;

@@ -13,9 +13,12 @@ flask-migrate = "*"
 flask-swagger = "*"
 psycopg2-binary = "*"
 python-dotenv = "*"
+eralchemy = "*"
 
 [requires]
 python_version = "3.6"
 
 [scripts]
 start="flask run -p 3000"
+migrate="flask db upgrade"
+diagram="python3 diagram.py"
