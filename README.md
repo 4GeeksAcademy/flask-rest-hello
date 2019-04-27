@@ -1,5 +1,7 @@
 # Flask Boilerplate 4Geeks Academy
 
+[![Open in Gitpod](https://gitpod.io/button/open-in-gitpod.svg)](https://gitpod.io#https://github.com/4GeeksAcademy/flask-rest-hello.git)
+
 1. Make sure you have python 3.6+
 ```sh
 pipenv shell
