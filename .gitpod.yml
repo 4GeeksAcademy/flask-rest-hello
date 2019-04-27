@@ -8,4 +8,4 @@ tasks:
         cp .env.example .env;
         pipenv install;
         pipenv run start;
-    - command: python3 -c "print(' \n\n\n WELCOME GEEK! \n\n\n Run the following commands to start coding: \n\n - \033[94m$ pipenv run migrate\033[0m run database migrations (if pending) \n - \033[94m$ pipenv run start\033[0m start flask web server \n - \033[94m$ pipenv run diagram\033[0m create database diagram \n\n')"
+    - command: python3 welcome.py
