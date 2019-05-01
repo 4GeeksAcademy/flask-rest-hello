@@ -5,17 +5,16 @@
 1. Make sure you have python 3.6+
 ```sh
 pipenv install
-pipenv run bootstrap
 ```
 
 2. Run the migrations
 ```sh
-$ flask db upgrade
+$ pipenv run migrate
 ```
 
 3. Run flask
 ```
-$ flask run -p 3000
+$ pipenv run start
 ```
 
 ## What to do next?
