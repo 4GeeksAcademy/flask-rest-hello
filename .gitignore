@@ -1,3 +1,4 @@
 .env
 database.database
+database.db
 diagram.png

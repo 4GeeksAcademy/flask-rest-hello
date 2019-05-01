@@ -4,8 +4,8 @@
 
 1. Make sure you have python 3.6+
 ```sh
-pipenv shell
 pipenv install
+pipenv run bootstrap
 ```
 
 2. Run the migrations
@@ -24,7 +24,8 @@ There is an example API working with an database.
 
 ## Migrate every time you change your models
 
-You have to generate the migrations for every update your make to your models:
+You have to upgrade the migrations for every update your make to your models:
 ```
-$ flask db migrate
+$ pipenv run migrate
+$ pipenv run upgrade
 ```

@@ -1,0 +1,163 @@
+Metadata-Version: 2.0
+Name: ERAlchemy
+Version: 1.2.10
+Summary: Simple entity relation (ER) diagrams generation
+Home-page: https://github.com/Alexis-benoist/eralchemy
+Author: Alexis Benoist
+Author-email: alexis.benoist@gmail.com
+License: Apache License 2.0
+Description-Content-Type: UNKNOWN
+Keywords: sql relational databases ER diagram render
+Platform: UNKNOWN
+Classifier: Development Status :: 5 - Production/Stable
+Classifier: Intended Audience :: Developers
+Classifier: Programming Language :: Python :: 2
+Classifier: Programming Language :: Python :: 2.7
+Classifier: Programming Language :: Python :: 3
+Classifier: Programming Language :: Python :: 3.3
+Classifier: Programming Language :: Python :: 3.4
+Classifier: Programming Language :: Python :: 3.5
+Classifier: Topic :: Scientific/Engineering :: Visualization
+Classifier: Topic :: Software Development :: Libraries :: Python Modules
+Classifier: Topic :: Database
+Requires-Dist: SQLAlchemy
+Requires-Dist: pygraphviz
+
+Entity relation diagrams generator
+==================================
+
+|Join the chat at https://gitter.im/Alexis-benoist/eralchemy|
+
+ERAlchemy generates Entity Relation (ER) diagram (like the one below)
+from databases or from SQLAlchemy models.
+
+Example
+-------
+
+.. figure:: https://raw.githubusercontent.com/Alexis-benoist/eralchemy/master/newsmeme.png?raw=true
+   :alt: Example for NewsMeme
+
+   Example for a graph
+
+`Example for NewsMeme <https://bitbucket.org/danjac/newsmeme>`__
+
+Quick Start
+-----------
+
+Install on a mac
+~~~~~~~~~~~~~~~~
+
+The simplest way to install eralchemy on OSX is by using
+`Homebrew <http://brew.sh>`__
+
+::
+
+    $ brew install eralchemy
+
+Install
+~~~~~~~
+
+To install ERAlchemy, just do:
+
+::
+
+    $ pip install eralchemy
+
+``ERAlchemy`` requires
+`GraphViz <http://www.graphviz.org/Download.php>`__ to generate the
+graphs and Python. Both are available for Windows, Mac and Linux.
+
+Usage from Command Line
+~~~~~~~~~~~~~~~~~~~~~~~
+
+From a database
+^^^^^^^^^^^^^^^
+
+::
+
+    $ eralchemy -i sqlite:///relative/path/to/db.db -o erd_from_sqlite.pdf
+
+The database is specified as a
+`SQLAlchemy <http://docs.sqlalchemy.org/en/rel_1_0/core/engines.html#database-urls>`__
+database url.
+
+From a markdown file.
+^^^^^^^^^^^^^^^^^^^^^
+
+::
+
+    $ curl 'https://raw.githubusercontent.com/Alexis-benoist/eralchemy/master/example/newsmeme.er' > markdown_file.er
+    $ eralchemy -i 'markdown_file.er' -o erd_from_markdown_file.pdf
+
+From a Postgresql DB to a markdown file excluding tables named ``temp`` and ``audit``
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+::
+
+    $ eralchemy -i 'postgresql+psycopg2://username:password@hostname:5432/databasename' -o filtered.er --exclude-tables temp audit
+
+From a Postgresql DB to a markdown file excluding columns named ``created_at`` and ``updated_at`` from all tables
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+::
+
+    $ eralchemy -i 'postgresql+psycopg2://username:password@hostname:5432/databasename' -o filtered.er --exclude-columns created_at updated_at
+
+From a Postgresql DB to a markdown file for the schema ``schema``
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+::
+
+    $ eralchemy -i 'postgresql+psycopg2://username:password@hostname:5432/databasename' -s schema
+
+Usage from Python
+~~~~~~~~~~~~~~~~~
+
+.. code:: python
+
+    from eralchemy import render_er
+    ## Draw from SQLAlchemy base
+    render_er(Base, 'erd_from_sqlalchemy.png')
+
+    ## Draw from database
+    render_er("sqlite:///relative/path/to/db.db", 'erd_from_sqlite.png')
+
+Architecture
+------------
+
+.. figure:: https://raw.githubusercontent.com/Alexis-benoist/eralchemy/master/eralchemy_architecture.png?raw=true
+   :alt: Architecture schema
+
+   Architecture schema
+
+Thanks to it’s modular architecture, it can be connected to other
+ORMs/ODMs/OGMs/O*Ms.
+
+Contribute
+----------
+
+Every feedback is welcome on the `GitHub
+issues <https://github.com/Alexis-benoist/eralchemy/issues>`__.
+
+To run the tests, use : ``$ py.test``. Some tests require a local
+postgres database with a schema named test in a database named test all
+owned by a user named postgres with a password of postgres.
+
+All tested PR are welcome.
+
+Notes
+-----
+
+ERAlchemy was inspired by `erd <https://github.com/BurntSushi/erd>`__,
+though it is able to render the ER diagram directly from the database
+and not just only from the ``ER`` markup language.
+
+Released under an Apache License 2.0
+
+Creator: Alexis Benoist
+`Alexis_Benoist <https://twitter.com/Alexis_Benoist>`__
+
+.. |Join the chat at https://gitter.im/Alexis-benoist/eralchemy| image:: https://badges.gitter.im/Alexis-benoist/eralchemy.svg
+   :target: https://gitter.im/Alexis-benoist/eralchemy?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge
+
+

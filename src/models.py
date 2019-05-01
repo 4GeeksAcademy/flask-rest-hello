@@ -10,7 +10,7 @@ class Person(db.Model):
     def __repr__(self):
         return '<Person %r>' % self.username
 
-    def to_dic(self):
+    def serialize(self):
         return {
             "username": self.username,
             "email": self.email

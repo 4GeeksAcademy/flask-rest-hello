@@ -20,5 +20,7 @@ python_version = "3.6"
 
 [scripts]
 start="flask run -p 3000"
-migrate="flask db upgrade"
+init="flask db init"
+migrate="flask db migrate"
+upgrade="flask db upgrade"
 diagram="python3 diagram.py"

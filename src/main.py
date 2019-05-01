@@ -34,7 +34,7 @@ def handle_person():
 
     if request.method == 'GET':
         all_people = Person.query.all()
-        all_people = list(map(lambda x: x.to_json(), all_people))
+        all_people = list(map(lambda x: x.serialize(), all_people))
         return jsonify(all_people)
 
     return "Invalid Method", 404
@@ -47,10 +47,10 @@ def get_single_person(person_id):
     """
     if request.method == 'PUT':
         user1 = Person.query.get(person_id)
-        return user1.to_json()
+        return jsonify(user1.serialize())
     if request.method == 'GET':
         user1 = Person.query.get(person_id)
-        return user1.to_json()
+        return jsonify(user1.serialize())
 
     return "Invalid Method", 404
 
