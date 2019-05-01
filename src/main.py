@@ -2,31 +2,29 @@
 This module takes care of starting the API Server, Loading the DB and Adding the endpoints
 """
 import os
-from flask import Flask, request, jsonify
+from flask import Flask, request, jsonify, url_for
 from flask_migrate import Migrate
 from flask_swagger import swagger
-from utils import APIException
+from flask_cors import CORS
+from utils import APIException, generate_sitemap
 from models import db, Person
 
-APP = Flask(__name__)
-APP.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get('DB_CONNECTION_STRING')
-APP.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
-MIGRATE = Migrate(APP, db)
-db.init_app(APP)
+app = Flask(__name__)
+app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get('DB_CONNECTION_STRING')
+app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+MIGRATE = Migrate(app, db)
+db.init_app(app)
+CORS(app)
 
-@APP.errorhandler(APIException)
+@app.errorhandler(APIException)
 def handle_invalid_usage(error):
     return jsonify(error.to_dict()), error.status_code
 
-@APP.route('/')
-def hello_world():
-    """
-    Read documentation
-    """
-    return jsonify(swagger(APP))
+@app.route('/')
+def sitemap():
+    return generate_sitemap(app)
 
-
-@APP.route('/person', methods=['POST', 'GET'])
+@app.route('/person', methods=['POST', 'GET'])
 def handle_person():
     """
     Create person and retrieve all persons
@@ -57,7 +55,7 @@ def handle_person():
     return "Invalid Method", 404
 
 
-@APP.route('/person/<int:person_id>', methods=['PUT', 'GET', 'DELETE'])
+@app.route('/person/<int:person_id>', methods=['PUT', 'GET', 'DELETE'])
 def get_single_person(person_id):
     """
     Single person
@@ -71,7 +69,7 @@ def get_single_person(person_id):
 
         user1 = Person.query.get(person_id)
         if user1 is None:
-              raise APIException('User not found', status_code=404)
+            raise APIException('User not found', status_code=404)
 
         if "username" in body:
             user1.username = body["username"]
@@ -85,14 +83,14 @@ def get_single_person(person_id):
     if request.method == 'GET':
         user1 = Person.query.get(person_id)
         if user1 is None:
-              raise APIException('User not found', status_code=404)
+            raise APIException('User not found', status_code=404)
         return jsonify(user1.serialize()), 200
 
     # DELETE request
     if request.method == 'DELETE':
         user1 = Person.query.get(person_id)
         if user1 is None:
-              raise APIException('User not found', status_code=404)
+            raise APIException('User not found', status_code=404)
         db.session.delete(user1)
         return "ok", 200
 
@@ -101,4 +99,4 @@ def get_single_person(person_id):
 
 if __name__ == '__main__':
     PORT = int(os.environ.get('PORT', 3000))
-    APP.run(host='0.0.0.0', port=PORT)
+    app.run(host='0.0.0.0', port=PORT)
