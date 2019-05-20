@@ -8,7 +8,7 @@ tasks:
         cp .env.example .env;
         pipenv install;
         pipenv run init;
-        pipenv run upgrade;
         pipenv run migrate;
+        pipenv run upgrade;
         pipenv run start;
     - command: python3 welcome.py
