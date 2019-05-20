@@ -2,29 +2,29 @@
 
 [![Open in Gitpod](https://gitpod.io/button/open-in-gitpod.svg)](https://gitpod.io#https://github.com/4GeeksAcademy/flask-rest-hello.git)
 
-1. Make sure you have python 3.6+
-```sh
-pipenv install
-```
+## How to stat the project?
 
-2. Run the migrations
-```sh
-$ pipenv run migrate
-```
+There is an example API working with an example database. All your application code should be written inside the `./src/` folder.
 
-3. Run flask
-```
-$ pipenv run start
-```
+- src/main.py (it's were your endpoints should be coded)
+- src/mode.py (your database tables and serialization logic)
+- src/utils.py (some reusable classes and functions)
 
-## What to do next?
+For a more detailed explanation look for the tutorial inside the `docs` folder.
 
-There is an example API working with an database.
-
-## Migrate every time you change your models
+## Remember migrate every time you change your models
 
 You have to upgrade the migrations for every update your make to your models:
 ```
 $ pipenv run migrate
 $ pipenv run upgrade
+```
+
+
+## Instalation for ubuntu
+1. Make sure you have python 3.6+
+```sh
+$ pipenv install (to install pip packages)
+$ pipenv run migrate (to create the database)
+$ pipenv run start (to start the flask webserver)
 ```
