@@ -14,10 +14,10 @@ For a more detailed explanation look for the tutorial inside the `docs` folder.
 
 ## Remember migrate every time you change your models
 
-You have to upgrade the migrations for every update your make to your models:
+You have to migreate and upgrade the migrations for every update your make to your models:
 ```
-$ pipenv run migrate
-$ pipenv run upgrade
+$ pipenv run migrate (to make the migrations)
+$ pipenv run upgrade  (to update your databse with the migrations)
 ```
 
 
