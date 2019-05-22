@@ -15,6 +15,7 @@ psycopg2-binary = "*"
 python-dotenv = "*"
 eralchemy = "*"
 flask-cors = "*"
+mysqlclient = "*"
 
 [requires]
 python_version = "3.6"

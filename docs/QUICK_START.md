@@ -1,3 +1,14 @@
+# Creating a Database
+
+1. Login in into your mysql terminal:
+```sh
+$ mysql
+```
+2. Once inside, type the following command replacing your db name
+```sql
+CREATE DATABASE example;
+```
+
 # Coding a typical CRUD operation
 
 As an example we are going to create a small API to manage a Person
