@@ -7,7 +7,7 @@ tasks:
     - init: >
         cp .env.example .env;
         pipenv install;
-        pipenv run python create-database.py;
+        mysql -u root -e "CREATE DATABASE example";
         pipenv run init;
         pipenv run migrate;
         pipenv run upgrade;
