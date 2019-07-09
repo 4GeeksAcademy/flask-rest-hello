@@ -29,3 +29,27 @@ $ pipenv install (to install pip packages)
 $ pipenv run migrate (to create the database)
 $ pipenv run start (to start the flask webserver)
 ```
+
+
+## Deploy your website to heroku
+
+This template is 100% compatible with heroku, just make sure to understand and execute the following steps
+
+1. Install heroku
+```sh
+$ npm i heroku -g
+```
+
+2. Login to heroku on the command line
+```sh
+$ heroku login -i
+```
+3. Create an application (if you don't have it already)
+```sh
+$ heroku create <your_application_name>
+```
+4. Commit and push to heroku
+Make sure you have commited your changes and push to heroku
+```sh
+$ git push heroku master
+```
