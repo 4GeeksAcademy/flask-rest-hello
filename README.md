@@ -2,10 +2,13 @@
 
 [![Open in Gitpod](https://gitpod.io/button/open-in-gitpod.svg)](https://gitpod.io#https://github.com/4GeeksAcademy/flask-rest-hello.git)
 
+## Features
+
 - Integrated with Pipenv for package managing.
 - Fast deloyment to heroku with `$ pipenv run deploy`.
 - Use of `.env` file.
 - SQLAlchemy integration for database abstraction.
+- Documented Examples [here](https://github.com/4GeeksAcademy/flask-rest-hello/tree/master/docs).
 
 ## How to stat the project?
 
