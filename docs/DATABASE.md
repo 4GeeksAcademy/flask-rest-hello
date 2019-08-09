@@ -57,9 +57,7 @@ if "email" in body:
 db.session.commit()
 ```
  
- ## Delete data
- 
- Asuming you have a Person object in your models.py file.
+ ### Delete data
  
  ```py
  user1 = Person.query.get(person_id)
