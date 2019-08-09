@@ -1,6 +1,11 @@
-# Flask Boilerplate 4Geeks Academy
+# Flask Boilerplate for profesional development
 
 [![Open in Gitpod](https://gitpod.io/button/open-in-gitpod.svg)](https://gitpod.io#https://github.com/4GeeksAcademy/flask-rest-hello.git)
+
+- Integrated with Pipenv for package managing.
+- Fast deloyment to heroku with `$ pipenv run deploy`.
+- Use of `.env` file.
+- SQLAlchemy integration for database abstraction.
 
 ## How to stat the project?
 
@@ -21,7 +26,7 @@ $ pipenv run upgrade  (to update your databse with the migrations)
 ```
 
 
-## Instalation for ubuntu
+# Manual Instalation for Ubuntu & Mac
 
 ⚠️ Make sure you have `python 3.6+` and `MySQL` installed on your computer, then run the following commands:
 ```sh
