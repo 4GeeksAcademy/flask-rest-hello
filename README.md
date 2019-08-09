@@ -23,7 +23,7 @@ $ pipenv run upgrade  (to update your databse with the migrations)
 
 ## Instalation for ubuntu
 
-1. Make sure you have python 3.6+
+1. Make sure you have `python 3.6+` and `MySQL` installed on your computer.
 ```sh
 $ pipenv install (to install pip packages)
 $ pipenv run migrate (to create the database)
