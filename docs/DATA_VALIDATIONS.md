@@ -3,7 +3,7 @@
 Lets say a request is coming from the client and we need to make sure it contains the right information.
 
 We have to use conditionals to make the validations, if we want to validate the request body we have to retrive it first and then add the condition, like this:
-```
+```py
 body = request.get_json()
 if 'username' not in body:
     raise APIException('You need to specify the username', status_code=400)
