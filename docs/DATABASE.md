@@ -1,17 +1,28 @@
-# Creating a MySQL Database
+# Creating and/or Accessing the MySQL Database
 
 1. Login in into your mysql terminal:
 ```sh
 $ mysql
 ```
-2. Once inside, type the following command replacing your db name
+2. Once inside, check if you have the database already created:
+```sql
+SHOW databases;
+```
+3. If you don't see the example database create it by typing:
 ```sql
 CREATE DATABASE example;
 ```
+Note: Make sure to update the `DB_CONNECTION_STRING` on the `.env` file with the correct database name.
 
-Make sure to update the `DB_CONNECTION_STRING` on the `.env` file with the correct database name.
-
-You can keep running any SQL command or type `exit;` to quit.
+3. If you your databse is already created get inside of it by typing:
+```sql
+USE example;
+```
+4. No you can type any SQL command you like, for example:
+```sql
+SHOW TABLES;
+```
+Note: type `exit;` to quit.
 
 
 # Querying data (SELECT)
