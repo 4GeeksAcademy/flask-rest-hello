@@ -25,7 +25,7 @@ SHOW TABLES;
 Note: type `exit;` to quit.
 
 
-# Querying data (SELECT)
+# Querying data using Python and SQL Alchemy (SELECT)
 
 Asuming you have a Person object in your models.py file.
 
