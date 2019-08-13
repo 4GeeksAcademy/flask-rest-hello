@@ -43,21 +43,14 @@ $ pipenv run start (to start the flask webserver)
 
 This template is 100% compatible with heroku, just make sure to understand and execute the following steps
 
-1. Install heroku
 ```sh
+// Install heroku
 $ npm i heroku -g
-```
-
-2. Login to heroku on the command line
-```sh
+// Login to heroku on the command line
 $ heroku login -i
-```
-3. Create an application (if you don't have it already)
-```sh
+// Create an application (if you don't have it already)
 $ heroku create <your_application_name>
-```
-4. Commit and push to heroku
-Make sure you have commited your changes and push to heroku
-```sh
+// Commit and push to heroku (commited your changes)
 $ git push heroku master
 ```
+:warning: For a more detailed explanation on working with .env variables or the MySQL database [read the full guide](https://github.com/4GeeksAcademy/flask-rest-hello/blob/master/docs/DEPLOY_YOUR_APP.md).
