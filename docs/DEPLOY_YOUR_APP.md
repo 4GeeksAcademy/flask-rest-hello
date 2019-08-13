@@ -27,7 +27,9 @@ $ git push heroku master
 
 You cannot create a `.env` file on Heroku, instead you need to manually create all the variables under your project settings.
 
-![Configuring Env Variables](https://github.com/4GeeksAcademy/flask-rest-hello/blob/master/docs/assets/env_variables.gif?raw=true)
+<p align="center">
+<img width="400px" alt="Configuring Env Variables" src="https://github.com/4GeeksAcademy/flask-rest-hello/blob/master/docs/assets/env_variables.gif?raw=true" />
+</p>
 
 
 ## Deploying your database to Heroku
