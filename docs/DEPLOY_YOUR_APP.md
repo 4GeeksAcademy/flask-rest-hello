@@ -44,4 +44,6 @@ mysql://tqqa0ui0cga32nxd:eqi8nchjbpwth82v@c584md9egjnm02sk.5btxwkvyhwsf.us-east-
 ```
 4. Copy the connection string and create a new environment variable on your project settings.
 
-![Create DB on heroku](https://github.com/4GeeksAcademy/flask-rest-hello/blob/master/docs/assets/db_config.gif?raw=true)
+<p align="center">
+<img width="400px" alt="Create DB on heroku" src="https://github.com/4GeeksAcademy/flask-rest-hello/blob/master/docs/assets/db_config.gif?raw=true" />
+</p>
