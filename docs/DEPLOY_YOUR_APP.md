@@ -1,4 +1,4 @@
-# Deploying to Heroku
+# Deploying to Heroku (takes 7 minutes)
 
 This template is 100% compatible with heroku, just make sure to understand and execute the following steps
 
@@ -23,7 +23,7 @@ Make sure you have commited your changes and push to heroku
 $ git push heroku master
 ```
 
-## Enviroment Variables
+## Enviroment Variables (takes 2 minutes)
 
 <p align="center">
 <img width="400px" alt="Configuring Env Variables" src="https://github.com/4GeeksAcademy/flask-rest-hello/blob/master/docs/assets/env_variables.gif?raw=true" />
@@ -34,7 +34,7 @@ You cannot create a `.env` file on Heroku, instead you need to manually create a
 Open your `.env` file and copy and paste each variable (FLASK_APP, DB_CONNECTION_STRING, etc.) to Heroku.
 
 
-## Deploying your database to Heroku
+## Deploying your database to Heroku (takes 3 minutes)
 
 <p align="center">
 <img width="400px" alt="Create DB on heroku" src="https://github.com/4GeeksAcademy/flask-rest-hello/blob/master/docs/assets/db_config.gif?raw=true" />
