@@ -36,6 +36,10 @@ Open your `.env` file and copy and paste each variable (FLASK_APP, DB_CONNECTION
 
 ## Deploying your database to Heroku
 
+<p align="center">
+<img width="400px" alt="Create DB on heroku" src="https://github.com/4GeeksAcademy/flask-rest-hello/blob/master/docs/assets/db_config.gif?raw=true" />
+</p>
+
 You local MySQL Database now has to be uploaded to a cloud, there are plenty of services that provide MySQL database hosting but we recomend JawDB because it has a Free Tier, its simple and 100% integrated with Heroku.
 
 1. Go to your heroku project dashboard and look to add a new heroku add-on.
@@ -49,8 +53,4 @@ mysql://tqqa0ui0cga32nxd:eqi8nchjbpwth82v@c584md9egjnm02sk.5btxwkvyhwsf.us-east-
 ```
 $ heroku run -a=<your_app_name> pipenv run upgrade
 ```
-Note: Notice that you have to replace `<your app name>` with your application name, you also ahve to be logged into heroku in your terminal (you can do that by typing `heroku login -i`)
-
-<p align="center">
-<img width="400px" alt="Create DB on heroku" src="https://github.com/4GeeksAcademy/flask-rest-hello/blob/master/docs/assets/db_config.gif?raw=true" />
-</p>
+:warning: Note: Notice that you have to replace `<your app name>` with your application name, you also ahve to be logged into heroku in your terminal (you can do that by typing `heroku login -i`)
