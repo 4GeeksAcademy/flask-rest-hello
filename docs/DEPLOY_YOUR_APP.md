@@ -25,13 +25,13 @@ $ git push heroku master
 
 ## Enviroment Variables
 
-You cannot create a `.env` file on Heroku, instead you need to manually create all the variables under your project settings.
-
-Open your `.env` file and copy and paste each variable (FLASK_APP, DB_CONNECTION_STRING, etc.) to Heroku.
-
 <p align="center">
 <img width="400px" alt="Configuring Env Variables" src="https://github.com/4GeeksAcademy/flask-rest-hello/blob/master/docs/assets/env_variables.gif?raw=true" />
 </p>
+
+You cannot create a `.env` file on Heroku, instead you need to manually create all the variables under your project settings.
+
+Open your `.env` file and copy and paste each variable (FLASK_APP, DB_CONNECTION_STRING, etc.) to Heroku.
 
 
 ## Deploying your database to Heroku
@@ -53,4 +53,4 @@ mysql://tqqa0ui0cga32nxd:eqi8nchjbpwth82v@c584md9egjnm02sk.5btxwkvyhwsf.us-east-
 ```
 $ heroku run -a=<your_app_name> pipenv run upgrade
 ```
-:warning: Note: Notice that you have to replace `<your app name>` with your application name, you also ahve to be logged into heroku in your terminal (you can do that by typing `heroku login -i`)
+:warning: Note: Notice that you have to replace `<your app name>` with your application name, you also have to be logged into heroku in your terminal (you can do that by typing `heroku login -i`)
