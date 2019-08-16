@@ -30,8 +30,9 @@ def sitemap():
 @app.route('/person', methods=['POST', 'GET'])
 def handle_person():
     #This is an example endpoint that run GET /person and POST /person
-
-    return "Invalid Method", 404
+    people_query = Person.query.all()
+    all_people = list(map(lambda x: x.serialize(), people_query))
+    return jsonify(all_people), 200
 
 # this only runs if `$ python src/main.py` is exercuted
 if __name__ == '__main__':
