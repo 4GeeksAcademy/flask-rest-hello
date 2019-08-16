@@ -27,12 +27,14 @@ def handle_invalid_usage(error):
 def sitemap():
     return generate_sitemap(app)
 
-@app.route('/person', methods=['POST', 'GET'])
+@app.route('/hello', methods=['POST', 'GET'])
 def handle_person():
-    #This is an example endpoint that run GET /person and POST /person
-    people_query = Person.query.all()
-    all_people = list(map(lambda x: x.serialize(), people_query))
-    return jsonify(all_people), 200
+
+    response_body = {
+        "hello": "world"
+    }
+
+    return jsonify(response_body), 200
 
 # this only runs if `$ python src/main.py` is exercuted
 if __name__ == '__main__':
