@@ -76,4 +76,83 @@ if user1 is None:
     raise APIException('User not found', status_code=404)
 db.session.delete(user1)
 db.session.commit()
-  ```
+ ```
+
+## ONE to MANY relationship
+A one to many relationship places a foreign key on the child table referencing the parent. 
+relationship() is then specified on the parent, as referencing a collection of items represented by the child:
+
+```py
+class Parent(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(80), nullable=False)
+    children = db.relationship('Child', lazy=True)
+
+    def __repr__(self):
+        return f'<Parent {self.name}>'
+
+    def serialize(self):
+        return {
+            "id": self.id,
+            "name": self.name,
+            "children": list(map(lambda x: x.serialize(), self.children))
+        }
+
+class Child(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(80), nullable=False)
+    parent_id = db.Column(db.Integer, db.ForeignKey("Parent.id"))
+    
+    def __repr__(self):
+        return '<Child {self.name}>
+        
+    def serialize(self):
+        return {
+            "id": self.id,
+            "name": self.name
+        }
+```
+
+## MANY to MANY relationship
+Many to Many adds an association table between two classes. The association table is indicated by the secondary argument to relationship(). Usually, the Table uses the MetaData object associated with the declarative base class, so that the ForeignKey directives can locate the remote tables with which to link:
+
+```py
+association_table = Table('association', Base.metadata,
+    Column("sister_id", Integer, ForeignKey("Sister.id")),
+    Column("brother_id", Integer, ForeignKey("Brother.id"))
+)
+
+class Sister(db.Model):
+    id = db.Column(Integer, primary_key=True)
+    name = db.Column(String(80), nullable=False)
+    brothers = relationship("Brother",
+                    secondary=association_table
+                    back_populates="sisters") # this line is so it updates the field when Sister is updated
+                    
+    def __ref__(self):
+        return f'<Sister {self.name}>'
+        
+    def serialize(self):
+        return {
+            "id": self.id,
+            "name": self.name,
+            "brothers": list(map(lambda x: x.serialize(), self.brothers))
+        }
+
+class Brother(db.Model):
+    id = db.Column(Integer, primary_key=True)
+    name = db.Column(String(80), nullable=False)
+    sisters = relationship("Sister",
+                    secondary=association_table
+                    back_populates="brothers")
+                    
+    def __ref__(self):
+        return f'<Brother {self.name}>'
+        
+    def serialize(self):
+        return {
+            "id": self.id,
+            "name": self.name,
+            "sisters": list(map(lambda x: x.serialize(), self.sisters))
+        }
+```
