@@ -15,7 +15,7 @@
 There is an example API working with an example database. All your application code should be written inside the `./src/` folder.
 
 - src/main.py (it's were your endpoints should be coded)
-- src/mode.py (your database tables and serialization logic)
+- src/models.py (your database tables and serialization logic)
 - src/utils.py (some reusable classes and functions)
 
 For a more detailed explanation look for the tutorial inside the `docs` folder.
