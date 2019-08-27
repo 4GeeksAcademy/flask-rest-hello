@@ -16,6 +16,7 @@ python-dotenv = "*"
 mysql-connector-python = "*"
 flask-cors = "*"
 gunicorn = "*"
+//mysqlclient = "*"
 
 [requires]
 python_version = "3.6"

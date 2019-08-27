@@ -10,7 +10,7 @@ if 'username' not in body:
 ```
 
 - Its a good practice to raise exeptions because it will stop the code execution.
-- Its a good practice to return 400 because that way the client knows it was his mistake and not ours.
+- Its a good practice to return 400 because that way the client knows it was his mistake and not ours (the server).
 
 ### Here is a full example of a POST request to add a new person into a database:
 
