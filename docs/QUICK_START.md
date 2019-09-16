@@ -4,10 +4,11 @@
 ```sh
 $ mysql
 ```
-2. Once inside, type the following command replacing your db name
+2. Once inside, create the database (if needed)
 ```sql
 CREATE DATABASE example;
 ```
+Note: you can delete the previous database using the drop command
 
 # Coding a typical CRUD operation
 

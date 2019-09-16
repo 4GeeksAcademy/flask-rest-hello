@@ -6,3 +6,5 @@ diagram.png
 public/*
 dist/*
 package.json
+
+__pycache__/
