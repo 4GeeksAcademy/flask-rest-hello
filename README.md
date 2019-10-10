@@ -1,4 +1,4 @@
-# Flask Boilerplate for profesional development
+# Flask Boilerplate for Profesional Development
 
 [![Open in Gitpod](https://gitpod.io/button/open-in-gitpod.svg)](https://gitpod.io#https://github.com/4GeeksAcademy/flask-rest-hello.git)
 
@@ -10,7 +10,7 @@
 - Use of `.env` file.
 - SQLAlchemy integration for database abstraction.
 
-## How to stat the project?
+## How to Start the Project?
 
 There is an example API working with an example database. All your application code should be written inside the `./src/` folder.
 
@@ -41,7 +41,7 @@ $ pipenv run start (to start the flask webserver)
 
 ## Deploy your website to heroku
 
-This template is 100% compatible with heroku, just make sure to understand and execute the following steps
+This template is 100% compatible with heroku, just make sure to understand and execute the following steps:
 
 ```sh
 // Install heroku
