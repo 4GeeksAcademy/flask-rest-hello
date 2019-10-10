@@ -1,6 +1,6 @@
 # Creating and/or Accessing the MySQL Database
 
-1. Login in into your mysql terminal:
+1. Log in to mysql terminal:
 ```sh
 $ mysql
 ```
@@ -14,11 +14,11 @@ CREATE DATABASE example;
 ```
 Note: Make sure to update the `DB_CONNECTION_STRING` on the `.env` file with the correct database name.
 
-3. If you your databse is already created get inside of it by typing:
+3. If your database is already created, get inside of it by typing:
 ```sql
 USE example;
 ```
-4. No you can type any SQL command you like, for example:
+4. Now you can type any SQL command you like, for example:
 ```sql
 SHOW TABLES;
 ```
@@ -27,7 +27,7 @@ Note: type `exit;` to quit.
 
 # Querying data using Python and SQL Alchemy (SELECT)
 
-Asuming you have a Person object in your models.py file.
+Assuming you have a Person object in your models.py file.
 
 ```py
 # get all the people
@@ -36,9 +36,8 @@ people_query = Person.query.all()
 # get only the ones named "Joe"
 people_query = Person.query.filter_by(name='Joe')
 
-# map the results and your list of people its now inside all_people variable
+# map the results and your list of people  inside of the all_people variable
 all_people = list(map(lambda x: x.serialize(), people_query))
-
 
 # get just one person
 user1 = Person.query.get(person_id)
@@ -46,7 +45,7 @@ user1 = Person.query.get(person_id)
 
 ## Inserting data
 
-Asuming you have a Person object in your models.py file.
+Assuming you have a Person object in your models.py file.
 
 ```py
 user1 = Person(username="my_super_username", email="my_super@email.com")
@@ -80,7 +79,7 @@ db.session.commit()
 
 ## ONE to MANY relationship
 A one to many relationship places a foreign key on the child table referencing the parent. 
-relationship() is then specified on the parent, as referencing a collection of items represented by the child:
+Relationship() is then specified on the parent, as referencing a collection of items represented by the child:
 
 ```py
 class Parent(db.Model):
