@@ -14,22 +14,22 @@
 
 There is an example API working with an example database. All your application code should be written inside the `./src/` folder.
 
-- src/main.py (it's were your endpoints should be coded)
+- src/main.py (it's where your endpoints should be coded)
 - src/models.py (your database tables and serialization logic)
 - src/utils.py (some reusable classes and functions)
 
-For a more detailed explanation look for the tutorial inside the `docs` folder.
+For a more detailed explanation, look for the tutorial inside the `docs` folder.
 
-## Remember migrate every time you change your models
+## Remember to migrate every time you change your models
 
-You have to migreate and upgrade the migrations for every update your make to your models:
+You have to migrate and upgrade the migrations for every update you make to your models:
 ```
 $ pipenv run migrate (to make the migrations)
 $ pipenv run upgrade  (to update your databse with the migrations)
 ```
 
 
-# Manual Instalation for Ubuntu & Mac
+# Manual Installation for Ubuntu & Mac
 
 ⚠️ Make sure you have `python 3.6+` and `MySQL` installed on your computer and MySQL is running, then run the following commands:
 ```sh
@@ -39,9 +39,9 @@ $ pipenv run start (to start the flask webserver)
 ```
 
 
-## Deploy your website to heroku
+## Deploy to Heroku
 
-This template is 100% compatible with heroku, just make sure to understand and execute the following steps:
+This template is 100% compatible with Heroku[https://www.heroku.com/], just make sure to understand and execute the following steps:
 
 ```sh
 // Install heroku
