@@ -29,7 +29,7 @@ def sitemap():
     return generate_sitemap(app)
 
 @app.route('/hello', methods=['POST', 'GET'])
-def handle_person():
+def handle_hello():
 
     response_body = {
         "hello": "world"
