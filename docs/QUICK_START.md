@@ -53,8 +53,11 @@ def get_single_person(person_id):
     """
     Single person
     """
+    body = request.get_json() #{ 'username': 'new_username'}
     if request.method == 'PUT':
         user1 = Person.query.get(person_id)
+        user1.username = body.username
+        db.session.commit()
         return jsonify(user1.serialize()), 200
     if request.method == 'GET':
         user1 = Person.query.get(person_id)
