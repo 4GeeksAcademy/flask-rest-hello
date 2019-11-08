@@ -3,6 +3,8 @@ image:
 ports:
     - port: 3000
       onOpen: open-preview
+    - port: 3306
+      onOpen: ignore
 tasks:
     - init: >
         cp .env.example .env;
@@ -11,5 +13,7 @@ tasks:
         pipenv run init;
         pipenv run migrate;
         pipenv run upgrade;
+      command: >
         pipenv run start;
     - command: python3 welcome.py
+      openMode: split-right
