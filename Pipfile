@@ -19,7 +19,7 @@ gunicorn = "*"
 mysqlclient = "*"
 
 [requires]
-python_version = "3.6"
+python_version = "3.7"
 
 [scripts]
 start="flask run -p 3000 -h 0.0.0.0"
