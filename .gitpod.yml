@@ -21,3 +21,8 @@ tasks:
         set +x
     - command: python3 welcome.py
       openMode: split-right
+
+github:
+  prebuilds:
+    # enable for the master/default branch (defaults to true)
+    master: false
