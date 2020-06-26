@@ -7,18 +7,14 @@ ports:
       onOpen: ignore
 tasks:
     - init: |
-        set -x;
         cp .env.example .env;
         pipenv install;
         mysql -u root -e "CREATE DATABASE example";
         pipenv run init;
         pipenv run migrate;
         pipenv run upgrade;
-        set +x;
       command: >
-        set -x;
         pipenv run start;
-        set +x;
     - command: python3 welcome.py
       openMode: split-right
 
