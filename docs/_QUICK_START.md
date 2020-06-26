@@ -1,4 +1,10 @@
-# Creating a Database
+## Table of contents
+
+1. How to create an empty database
+2. How to create your models
+3. How to add endpoints
+
+## Creating a Database
 
 1. Login in into your mysql terminal:
 ```sh
@@ -10,11 +16,11 @@ CREATE DATABASE example;
 ```
 Note: you can delete the previous database using the drop command
 
-# Coding a typical CRUD operation
+## Coding a typical CRUD operation
 
 As an example we are going to create a small API to manage a Person
 
-## Adding an Model
+### Adding an Model
 
 For each `model` you will have to declare a class with the model properties and a method `serialize` that returns a dictionary representation of the class
 
@@ -37,7 +43,7 @@ class Person(db.Model):
 
 ```
 
-## Adding an endpoint
+### Adding an endpoint
 
 For each endpoint you will need to have:
 1. One `@APP` decorator that specifies the path for the expoint.
