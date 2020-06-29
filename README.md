@@ -1,6 +1,9 @@
 # Flask Boilerplate for Profesional Development
 
 [![Open in Gitpod](https://gitpod.io/button/open-in-gitpod.svg)](https://gitpod.io/from-referrer/)
+<p align="center">
+    <img height="200px" src="https://github.com/4GeeksAcademy/flask-rest-hello/blob/master/docs/assets/how-to.png?raw=true" />
+</p>
 
 ## Features
 
@@ -10,13 +13,28 @@
 - Use of `.env` file.
 - SQLAlchemy integration for database abstraction.
 
-## How to Start the Project?
+## Installation (automatic if you are using gitpod)
+
+> Important: The boiplerplate is made for python 3.7 but you can easily change the `python_version` on the Pipfile.
+
+The following steps are automatically runned withing gitpod, if you are doing a local installation you have to do them manually:
+
+```sh
+pipenv install;
+mysql -u root -e "CREATE DATABASE example";
+pipenv run init;
+pipenv run migrate;
+pipenv run upgrade;
+```
+
+## How to Start coding?
 
 There is an example API working with an example database. All your application code should be written inside the `./src/` folder.
 
 - src/main.py (it's where your endpoints should be coded)
 - src/models.py (your database tables and serialization logic)
 - src/utils.py (some reusable classes and functions)
+- src/admin.py (add your models to the admin and manage your data easily)
 
 For a more detailed explanation, look for the tutorial inside the `docs` folder.
 
