@@ -8,12 +8,11 @@ from flask_swagger import swagger
 from flask_cors import CORS
 from utils import APIException, generate_sitemap
 from admin import setup_admin
-from models import db
+from models import db, User
 #from models import Person
 
 app = Flask(__name__)
 app.url_map.strict_slashes = False
-app.secret_key = os.environ.get('FLASK_APP_KEY', 'sample key')
 app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get('DB_CONNECTION_STRING')
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 MIGRATE = Migrate(app, db)
@@ -31,14 +30,15 @@ def handle_invalid_usage(error):
 def sitemap():
     return generate_sitemap(app)
 
-@app.route('/hello', methods=['POST', 'GET'])
+@app.route('/user', methods=['POST'])
 def handle_hello():
 
-    response_body = {
-        "hello": "world"
-    }
+    request_body = request.get_json()
+    user1 = User(email=request_body["email"], password=request_body["password"], is_active=True)
+    db.session.add(user1)
+    db.session.commit()
 
-    return jsonify(response_body), 200
+    return jsonify(user1.serialize()), 200
 
 # this only runs if `$ python src/main.py` is executed
 if __name__ == '__main__':
