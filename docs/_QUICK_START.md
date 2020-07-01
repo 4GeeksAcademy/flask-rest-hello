@@ -3,6 +3,7 @@
 1. How to create an empty database
 2. How to create your models
 3. How to add endpoints
+4. Using the /admin
 
 ## Creating a Database
 
@@ -71,3 +72,17 @@ def get_single_person(person_id):
 
     return "Invalid Method", 404
 ```
+
+### Using the admin
+
+You can add your models to the admin, that way you will be able to manage them without any extra code.
+
+To add a new model into the admin, just open the `src/admin.py` file and add this line inside the `setup_admin` function.
+
+```python
+admin.add_view(ModelView(YourModelName, db.session))
+```
+
+Note: Make sure you import the model on the top of the file
+
+You can read [more about the admin here](https://github.com/4GeeksAcademy/flask-rest-hello/blob/master/docs/ADMIN.md).

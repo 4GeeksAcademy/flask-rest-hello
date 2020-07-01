@@ -17,3 +17,6 @@ Here we are tracking the previous and upcoming changes (roadmap), pull request t
 
 ### Jun 29th, 2020
 - [x] Added [Flask Admin](https://flask-admin.readthedocs.io/en/latest/) to easy manage the database without any extra code code and automatic CRUD operations for all models.
+
+### Jul 1st, 2020
+- Added video explanation of the boilerplate
