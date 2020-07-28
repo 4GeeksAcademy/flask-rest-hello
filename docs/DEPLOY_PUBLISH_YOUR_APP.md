@@ -19,7 +19,9 @@ $ heroku create <your_application_name>
 
 ## Enviroment Variables (takes 2 minutes)
 
-<p align="center">
+Now navegate to your [heroku dashboard](https://dashboard.heroku.com/apps) and look for your application settings, we have to manually add our enviromental variables into heroku:
+
+<p align="right">
 <img width="400px" alt="Configuring Env Variables" src="https://github.com/4GeeksAcademy/flask-rest-hello/blob/master/docs/assets/env_variables.gif?raw=true" />
 </p>
 
