@@ -17,12 +17,6 @@ $ heroku login -i
 $ heroku create <your_application_name>
 ```
 
-4. Commit and push to heroku
-Make sure you have commited your changes and push to heroku
-```sh
-$ git push heroku master
-```
-
 ## Enviroment Variables (takes 2 minutes)
 
 <p align="center">
@@ -54,3 +48,12 @@ mysql://tqqa0ui0cga32nxd:eqi8nchjbpwth82v@c584md9egjnm02sk.5btxwkvyhwsf.us-east-
 $ heroku run -a=<your_app_name> pipenv run upgrade
 ```
 :warning: Note: Notice that you have to replace `<your app name>` with your application name, you also have to be logged into heroku in your terminal (you can do that by typing `heroku login -i`)
+
+## Push to the Heroku codebase
+
+Commit and push to heroku, make sure you have added and commited your changes and push to heroku
+```sh
+$ git push heroku master
+```
+
+## That is it!
