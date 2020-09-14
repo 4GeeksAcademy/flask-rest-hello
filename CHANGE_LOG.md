@@ -20,3 +20,6 @@ Here we are tracking the previous and upcoming changes (roadmap), pull request t
 
 ### Jul 1st, 2020
 - Added video explanation of the boilerplate
+
+### Sep 14, 2020
+- Added tutorial on [how to reset the migrations](https://github.com/4GeeksAcademy/flask-rest-hello/blob/master/docs/RESET_MIGRATIONS.md).
