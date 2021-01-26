@@ -85,4 +85,4 @@ admin.add_view(ModelView(YourModelName, db.session))
 
 Note: Make sure you import the model on the top of the file
 
-You can read [more about the admin here](https://github.com/4GeeksAcademy/flask-rest-hello/blob/master/docs/ADMIN.md).
+You can read [more about the admin here](https://github.com/4GeeksAcademy/flask-rest-hello/blob/main/docs/ADMIN.md).
