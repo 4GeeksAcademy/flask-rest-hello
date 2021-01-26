@@ -22,7 +22,7 @@ $ heroku create <your_application_name>
 Now navegate to your [heroku dashboard](https://dashboard.heroku.com/apps) and look for your application settings, we have to manually add our enviromental variables into heroku:
 
 <p align="right">
-<img width="400px" alt="Configuring Env Variables" src="https://github.com/4GeeksAcademy/flask-rest-hello/blob/master/docs/assets/env_variables.gif?raw=true" />
+<img width="400px" alt="Configuring Env Variables" src="https://github.com/4GeeksAcademy/flask-rest-hello/blob/main/docs/assets/env_variables.gif?raw=true" />
 </p>
 
 You cannot create a `.env` file on Heroku, instead you need to manually create all the variables under your project settings.
@@ -33,7 +33,7 @@ Open your `.env` file and copy and paste each variable (FLASK_APP, DB_CONNECTION
 ## Deploying your database to Heroku (takes 3 minutes)
 
 <p align="center">
-<img width="400px" alt="Create DB on heroku" src="https://github.com/4GeeksAcademy/flask-rest-hello/blob/master/docs/assets/db_config.gif?raw=true" />
+<img width="400px" alt="Create DB on heroku" src="https://github.com/4GeeksAcademy/flask-rest-hello/blob/main/docs/assets/db_config.gif?raw=true" />
 </p>
 
 You local MySQL Database now has to be uploaded to a cloud, there are plenty of services that provide MySQL database hosting but we recomend JawDB because it has a Free Tier, its simple and 100% integrated with Heroku.
@@ -55,7 +55,7 @@ $ heroku run -a=<your_app_name> pipenv run upgrade
 
 Commit and push to heroku, make sure you have added and commited your changes and push to heroku
 ```sh
-$ git push heroku master
+$ git push heroku main
 ```
 
 ## That is it!
