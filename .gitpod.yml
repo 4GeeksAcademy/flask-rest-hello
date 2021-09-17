@@ -3,8 +3,10 @@ image:
 ports:
     - port: 3000
       onOpen: open-preview
+      visibility: public
     - port: 3306
       onOpen: ignore
+      visibility: public
 tasks:
     - init: |
         cp .env.example .env;
