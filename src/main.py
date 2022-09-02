@@ -30,14 +30,75 @@ def handle_invalid_usage(error):
 def sitemap():
     return generate_sitemap(app)
 
-@app.route('/user', methods=['GET'])
-def handle_hello():
-
+@app.route('/users', methods=['GET'])
+def get_users():
+    queryset= User.query.all()
+    users_list = [user.serialize() for user in queryset]
     response_body = {
-        "msg": "Hello, this is your GET /user response "
+        "user_list": users_list
     }
+    return jsonify(users_list), 200
 
+@app.route('/users/favorites', methods=['GET'])
+def get_users_favorites():
+    #user_list = User.query.all()
+    #user_list = list(map(lambda user: user.serialize(), user_list))
+    # otra forma de hacerlo es esta:
+    response_body = {
+        # aqui pones lo que quieres que devuelva en el return
+       # "msg": "Hello, this is your GET /user response ",
+        "user_favorites": "hello user favoritos"
+    }
     return jsonify(response_body), 200
+
+@app.route('/people', methods=['GET'])
+def get_people():
+    response_body = {"msg":"Hola people"}
+    return jsonify(response_body), 200
+        
+
+@app.route('/people/<int:people_id>', methods=['GET'])
+def get_single_people(people_id):
+    response_body = {"id de single": people_id}
+    return jsonify(response_body), 200
+
+@app.route('/planet', methods=['GET'])
+def get_planet():
+    response_body = {"msg":"Hola planet"}
+    return jsonify(response_body), 200
+
+@app.route('/planet/<int:planet_id>', methods=['GET'])
+def get_single_planet(planet_id):
+    response_body = {"id de planet": planet_id}
+    return jsonify(response_body), 200
+
+@app.route('/favorite', methods=['GET'])
+def get_favorite():
+    response_body = {"msg":"Hola favorite"}
+    return jsonify(response_body), 200
+
+@app.route('/favorite/people/<int:people_id>', methods=['POST'])
+def post_favorite_people(people_id):
+    response_body = {"msg":"Hola desde favorito people post"}
+    return jsonify(response_body), 200
+
+@app.route('/favorite/planet/<int:planet_id>', methods=['POST'])
+def post_favorite_planet(planet_id):
+    response_body = {"msg":"Hola desde favorito planet post"}
+    return jsonify(response_body), 200
+
+@app.route('/favorite/people/<int:people_id>', methods=['DELETE'])
+def delete_favorite_people(people_id):
+    response_body = {"msg":"Hola desde favorito people delete"}
+    return jsonify(response_body), 200
+
+@app.route('/favorite/planet/<int:planet_id>', methods=['DELETE'])
+def delete_favorite_planet(planet_id):
+    response_body = {"msg":"Hola desde favorito planet delete"}
+    return jsonify(response_body), 200
+
+
+
 
 # this only runs if `$ python src/main.py` is executed
 if __name__ == '__main__':
