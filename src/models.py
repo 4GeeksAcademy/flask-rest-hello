@@ -16,9 +16,69 @@ class User(db.Model):
         return {
             "id": self.id,
             "email": self.email,
-            "username": self.username
-            
             # do not serialize the password, its a security breach
         }
+
+class Favorites(db.Model):
+    __tablename__ = "favorites"
+    id = db.Column(db.Integer, primary_key=True)
+    user_id = db.Column(db.Integer, db.ForeignKey("user.id"))
+    user_name = db.Column(db.String, db.ForeignKey("user.username"))
+    people_id = db.Column(db.Integer, db.ForeignKey("people.id"))
+    people_name = db.Column(db.Integer, db.ForeignKey("people.name"))
+    planet_id = db.Column(db.Integer, db.ForeignKey("planet.id"))
+    planet_name = db.Column(db.Integer, db.ForeignKey("planet.name"))
+
+    def __repr__(self):
+        return f"<Favorites id={self.id}>"
     
-    
+    def serialize(self):
+        return {
+            "id": self.id,
+            "user_id": self.user_id,
+            "user_name": self.user_name,
+            "people_id": self.people_id,
+            "people_name": self.people_name,
+            "planet_id": self.planet_id,
+            "planet_name": self.planet_name
+        }
+
+class People(db.Model):
+    __tablename__ = 'people'
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(60), nullable=False)
+    gender = db.Column(db.String(10))
+    birthday_year = db.Column(db.String(10))
+    color_eyes = db.Column(db.String(10))
+    height = db.Column(db.String(5))
+    mass = db.Column(db.String(5))
+
+    def __repr__(self):
+        return f"<People id={self.id} name= {self.name}>"
+
+    def serialize(self):
+        return {
+            "id": self.id,
+            "name": self.name,
+            "gender": self.gender,
+            "birthday_year": self.birthday_year,
+            "color_eyes": self.color_eyes,
+            "height": self.height,
+            "mass": self.mass
+
+        }
+
+
+class Planet(db.Model):
+    __tablename__ = "planet"
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(60), nullable=False)
+    gravity = db.Column(db.String(10))
+    terrain = db.Column(db.String(10))
+    diametrer = db.Column(db.String(10))
+    rotation_period = db.Column(db.String(10))
+    orbital_period = db.Column(db.String(10))
+
+    def __repr__(self):
+        return f"<Planet id={self.id} name= {self.name}"
+
