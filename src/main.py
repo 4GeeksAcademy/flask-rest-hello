@@ -8,7 +8,10 @@ from flask_swagger import swagger
 from flask_cors import CORS
 from utils import APIException, generate_sitemap
 from admin import setup_admin
-from models import db, User, People, Planet, Favorites
+from models import db, User
+from models import People
+from models import Planet
+from models import Favorites
 
 app = Flask(__name__)
 app.url_map.strict_slashes = False
@@ -103,7 +106,28 @@ def get_single_planet(planet_id):
 
 # POST
 
-@app.route('/people/<int:people_id>', methods=['POST'])
+@app.route('/people', methods=['POST'])
+def post_people():
+    body = json.loads(request.data)
+    new_people = People(
+        name = body["name"],
+        gender = body["gender"],
+        birthday_year = body["birthday_year"],
+        color_eyes = body["color_eyes"],
+        height = body["height"],
+        mass = body["mass"]
+    )
+    db.session.add(new_people)
+    db.session.commit()
+    response_body = {  
+        "success": True,
+        "results": new_people,
+        "resultado": "añadido personaje"
+    }
+    return jsonify(response_body), 200   
+
+
+""" @app.route('/people/<int:people_id>', methods=['POST'])
 def post_single_people(people_id):
     body = json.loads(request.data)
     new_single_people = People(
@@ -120,16 +144,16 @@ def post_single_people(people_id):
         "results": new_single_people,
         "resultado": "añadido personaje"
     }
-    return jsonify(response_body), 200
+    return jsonify(response_body), 200 """
 
 
 # DELETE 
 
-@app.route('/people/<int:people_id>', methods=['DELETE'])
+""" @app.route('/people/<int:people_id>', methods=['DELETE'])
 def delete_favorite_people(people_id):
     response_body = {"msg":"Hola desde people delete"}
     return jsonify(response_body), 200
-
+ """
 
 
 
