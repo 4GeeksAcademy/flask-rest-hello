@@ -50,13 +50,14 @@ def get_user():
 @app.route('/user/favorites/<int:user_id>', methods=['GET'])
 def get_favorites(user_id):
     favorites_list = Favorites.query.get(user_id)
-    favorites_list = list(map(lambda favorites: favorites.serialize(), favorites_list))
+    #favorites_list = list(map(lambda favorites: favorites.serialize(), favorites_list))
     response_body = {
         "success": True,
         "results": favorites_list,
         "msg": "hola desde favorites"
         }
     return jsonify(response_body), 200
+
 
 
 
