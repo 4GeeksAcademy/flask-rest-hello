@@ -15,6 +15,7 @@ class User(db.Model):
     def serialize(self):
         return {
             "id": self.id,
+            "username": self.username,
             "email": self.email,
             # do not serialize the password, its a security breach
         }
@@ -23,11 +24,9 @@ class Favorites(db.Model):
     __tablename__ = "favorites"
     id = db.Column(db.Integer, primary_key=True)
     user_id = db.Column(db.Integer, db.ForeignKey("user.id"))
-    user_name = db.Column(db.String, db.ForeignKey("user.username"))
     people_id = db.Column(db.Integer, db.ForeignKey("people.id"))
-    people_name = db.Column(db.Integer, db.ForeignKey("people.name"))
     planet_id = db.Column(db.Integer, db.ForeignKey("planet.id"))
-    planet_name = db.Column(db.Integer, db.ForeignKey("planet.name"))
+
 
     def __repr__(self):
         return f"<Favorites id={self.id}>"
@@ -67,11 +66,10 @@ class People(db.Model):
             "mass": self.mass
         }
 
-
 class Planet(db.Model):
     __tablename__ = "planet"
     id = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.String(60), nullable=False)
+    name = db.Column(db.String(60), unique=True, nullable=False)
     gravity = db.Column(db.String(10))
     terrain = db.Column(db.String(10))
     diametrer = db.Column(db.String(10))
@@ -85,5 +83,10 @@ class Planet(db.Model):
         return {
             "id": self.id,
             "name": self.name,
+            "gravity": self.gravity,
+            "terrain": self.terrain,
+            "diametrer": self.diametrer,
+            "rotation_period": self.rotation_period,
+            "orbital_period": self.orbital_period
         }
 

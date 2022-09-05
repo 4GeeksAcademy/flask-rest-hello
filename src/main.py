@@ -33,7 +33,8 @@ def sitemap():
     return generate_sitemap(app)
 
 
-# GET
+# -------------------------GET----------------------------
+
 @app.route('/user', methods=['GET'])
 def get_user():
     queryset= User.query.all()
@@ -46,9 +47,9 @@ def get_user():
     }
     return jsonify(response_body), 200
 
-@app.route('/favorites', methods=['GET'])
-def get_favorites():
-    favorites_list = Favorites.query.all()
+@app.route('/user/favorites/<int:user_id>', methods=['GET'])
+def get_favorites(user_id):
+    favorites_list = Favorites.query.get(user_id)
     favorites_list = list(map(lambda favorites: favorites.serialize(), favorites_list))
     response_body = {
         "success": True,
@@ -56,6 +57,8 @@ def get_favorites():
         "msg": "hola desde favorites"
         }
     return jsonify(response_body), 200
+
+
 
 @app.route('/people', methods=['GET'])
 def get_people():
@@ -101,7 +104,25 @@ def get_single_planet(planet_id):
     return jsonify(response_body), 200
 
 
-# POST
+# ------------------POST-----------------------------------------
+
+@app.route('/user', methods=['POST'])
+def add_user():
+    body = json.loads(request.data)
+    new_user = User(
+        username = body["username"],
+        email = body["email"]
+    )
+    db.session.add(new_user)
+    db.session.commit()
+    new_user = new_user.serialize()
+    response_body = {
+
+        "success": True,
+        "results": new_user,
+        "msg": "usuario creado"
+    }
+    return jsonify(response_body), 200
 
 @app.route('/people', methods=['POST'])
 def post_people():
@@ -125,10 +146,33 @@ def post_people():
     return jsonify(response_body), 200   
 
 
-# DELETE 
+@app.route('/planet', methods=['POST'])
+def post_planet():
+    body = json.loads(request.data)
+    new_planet = Planet(
+        name = body["name"],
+        gravity = body["gravity"],
+        terrain = body["terrain"],
+        diametrer = body["diametrer"],
+        rotation_period = body["rotation_period"],
+        orbital_period = body["orbital_period"] 
+    )
+    db.session.add(new_planet)
+    db.session.commit()
+    new_planet = new_planet.serialize()
+    response_body = {  
+        "success": True,
+        "results": new_planet,
+        "resultado": "planeta añadido"
+    }
+    return jsonify(response_body), 200   
+
+
+
+# ------------------DELETE-----------------------------------------
 
 @app.route('/people/<int:people_id>', methods=['DELETE'])
-def delete_favorite_people(people_id):
+def delete_people(people_id):
     people = People.query.get(people_id)
     if people is None:
         raise APIException("People not found", status=404)
@@ -139,7 +183,16 @@ def delete_favorite_people(people_id):
     return jsonify(response_body), 200
 
 
-
+@app.route('/planet/<int:planet_id>', methods=['DELETE'])
+def delete_planet(planet_id):
+    planet = Planet.query.get(planet_id)
+    if planet is None:
+        raise APIException("planet not found", status=404)
+    response_body = {
+        "success": True,
+        "resultado":"Eliminado correctamente"
+        }
+    return jsonify(response_body), 200
 
 
 
