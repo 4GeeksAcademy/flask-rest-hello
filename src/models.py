@@ -65,7 +65,6 @@ class People(db.Model):
             "color_eyes": self.color_eyes,
             "height": self.height,
             "mass": self.mass
-
         }
 
 
@@ -81,4 +80,10 @@ class Planet(db.Model):
 
     def __repr__(self):
         return f"<Planet id={self.id} name= {self.name}"
+    
+    def serialize(self):
+        return {
+            "id": self.id,
+            "name": self.name,
+        }
 
