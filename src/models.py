@@ -54,7 +54,7 @@ class People(db.Model):
     mass = db.Column(db.String(5))
 
     def __repr__(self):
-        return f"<People id={self.id} name= {self.name}>"
+        return f"<People id={self.id}"
 
     def serialize(self):
         return {
