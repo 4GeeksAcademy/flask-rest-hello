@@ -16,6 +16,10 @@ $ heroku login -i
 ```sh
 $ heroku create <your_application_name>
 ```
+4. Change the heroku stack version to heroku-20 to make it work with this boilerplate (if you don't have it already)
+```sh
+$ heroku stack:set heroku-20
+```
 
 ## Enviroment Variables (takes 2 minutes)
 
