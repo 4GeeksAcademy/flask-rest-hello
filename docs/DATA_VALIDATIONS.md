@@ -28,7 +28,7 @@ def handle_person():
     if 'email' not in body:
         raise APIException('You need to specify the email', status_code=400)
 
-    # at this point, all data has been validated, we can proceed to inster into the bd
+    # at this point, all data has been validated, we can proceed to inster into the db
     user1 = Person(username=body['username'], email=body['email'])
     db.session.add(user1)
     db.session.commit()
