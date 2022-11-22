@@ -41,9 +41,10 @@ For a more detailed explanation, look for the tutorial inside the `docs` folder.
 ## Remember to migrate every time you change your models
 
 You have to migrate and upgrade the migrations for every update you make to your models:
-```
-$ pipenv run migrate (to make the migrations)
-$ pipenv run upgrade  (to update your databse with the migrations)
+
+```bash
+$ pipenv run migrate #(to make the migrations)
+$ pipenv run upgrade  #(to update your databse with the migrations)
 ```
 
 
@@ -57,18 +58,6 @@ $ pipenv run start (to start the flask webserver)
 ```
 
 
-## Deploy to Heroku
+## Publish/Deploy your website!
 
-This template is 100% compatible with Heroku[https://www.heroku.com/], just make sure to understand and execute the following steps:
-
-```sh
-// Install heroku
-$ npm i heroku -g
-// Login to heroku on the command line
-$ heroku login -i
-// Create an application (if you don't have it already)
-$ heroku create <your_application_name>
-// Commit and push to heroku (commited your changes)
-$ git push heroku main
-```
-:warning: For a more detailed explanation on working with .env variables or the MySQL database [read the full guide](https://start.4geeksacademy.com/backend/deploy-heroku-mysql).
+This boilerplate it's 100% read to deploy with Render.com and Herkou in a matter of minutes. Please read the [official documentation about it](https://start.4geeksacademy.com/deploy).
