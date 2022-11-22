@@ -13,12 +13,12 @@ services:
       plan: free # optional; defaults to starter
       numInstances: 1
       envVars:
-          - key: BASENAME # Imported from Heroku app
+          - key: BASENAME
             value: /
-          - key: FLASK_APP # Imported from Heroku app
+          - key: FLASK_APP
             value: src/app.py
-          - key: FLASK_ENV # Imported from Heroku app
-            value: production
+          - key: FLASK_DEBUG
+            value: 0
           - key: DATABASE_URL # Render PostgreSQL database
             fromDatabase:
                 name: flask-rest-42170
