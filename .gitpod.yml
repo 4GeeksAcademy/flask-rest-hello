@@ -21,4 +21,4 @@ tasks:
 github:
   prebuilds:
     # enable for the master/default branch (defaults to true)
-    main: true
+    main: false
