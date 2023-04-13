@@ -26,7 +26,7 @@
 	"onCreateCommand": "cp -n .env.example .env",
 
 	// Use 'postCreateCommand' to run commands after the container is created.
-	"postCreateCommand": "pipenv run init && pipenv run migrate && pipenv run upgrade",
+	"postCreateCommand": "bash database.sh && python docs/assets/welcome.py",
 
 	// Configure tool-specific properties.
 	// "customizations": {},
