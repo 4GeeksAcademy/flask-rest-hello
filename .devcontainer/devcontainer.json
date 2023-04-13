@@ -4,7 +4,7 @@
 	"name": "Python 3 & PostgreSQL",
 	"dockerComposeFile": "docker-compose.yml",
 	"service": "app",
-	"workspaceFolder": "/workspaces/${localWorkspaceFolderBasename}"
+	"workspaceFolder": "/workspaces/${localWorkspaceFolderBasename}",
 	"customizations": {
 		"vscode": {
 			"settings": {
@@ -21,10 +21,12 @@
 
 	// Use 'forwardPorts' to make a list of ports inside the container available locally.
 	// This can be used to network with other containers or the host.
-	"forwardPorts": [5000, 5432],
+	"forwardPorts": [5432],
+
+	"onCreateCommand": "cp -n .env.example .env",
 
 	// Use 'postCreateCommand' to run commands after the container is created.
-	// "postCreateCommand": "pip install --user -r requirements.txt",
+	"postCreateCommand": "pipenv run init && pipenv run migrate && pipenv run upgrade",
 
 	// Configure tool-specific properties.
 	// "customizations": {},
