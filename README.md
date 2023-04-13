@@ -8,7 +8,10 @@ Create flask API's in minutes, [📹 watch the video tutorial](https://youtu.be/
 - Use of `.env` file.
 - SQLAlchemy integration for database abstraction.
 
-## Installation (skip if you are using Codespaces or Gitpod)
+## 1) Installation
+
+This template installs itself in a few seconds if you open it for free with Codespaces (recommended) or Gitpod. 
+Skip this installation steps and jump to step 2 if you decide to use any of those services.
 
 > Important: The boiplerplate is made for python 3.10 but you can easily change the `python_version` on the Pipfile.
 
@@ -22,7 +25,7 @@ pipenv run migrate;
 pipenv run upgrade;
 ```
 
-## How to Start coding?
+## 2) How to Start coding
 
 There is an example API working with an example database. All your application code should be written inside the `./src/` folder.
 
@@ -38,20 +41,9 @@ For a more detailed explanation, look for the tutorial inside the `docs` folder.
 You have to migrate and upgrade the migrations for every update you make to your models:
 
 ```bash
-$ pipenv run migrate #(to make the migrations)
-$ pipenv run upgrade  #(to update your databse with the migrations)
+$ pipenv run migrate # (to make the migrations)
+$ pipenv run upgrade  # (to update your databse with the migrations)
 ```
-
-
-# Manual Installation for Ubuntu & Mac
-
-⚠️ Make sure you have `python 3.10+` and `Posgres` installed on your computer and Posgres is running, then run the following commands:
-```sh
-$ pipenv install (to install pip packages)
-$ pipenv run migrate (to create the database)
-$ pipenv run start (to start the flask webserver)
-```
-
 
 ## Publish/Deploy your website!
 
