@@ -13,7 +13,7 @@ tasks:
       pipenv install &&
       psql -U gitpod -c 'CREATE DATABASE example;' &&
       psql -U gitpod -c 'CREATE EXTENSION unaccent;' -d example &&
-      sudo -u gitpod psql -c "ALTER USER gitpod PASSWORD 'postgres';" &&
+      psql -c "ALTER USER gitpod PASSWORD 'postgres';" &&
       bash database.sh &&
       python docs/assets/welcome.py
     command: >
