@@ -1,6 +1,6 @@
 # Flask Boilerplate for Junior Developers
 
-Create flask API's in minutes.
+Create flask API's in minutes, [📹 watch the video tutorial](https://youtu.be/ORxQ-K3BzQA).
 
 - Extensive documentation [here](https://start.4geeksacademy.com).
 - Integrated with Pipenv for package managing.
