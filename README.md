@@ -1,4 +1,4 @@
-# Flask Boilerplate for Profesional Development
+# Flask Boilerplate for Junior Developers
 
 Create flask API's in minutes.
 
