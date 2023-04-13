@@ -2,7 +2,7 @@
 
 Create flask API's in minutes, [📹 watch the video tutorial](https://youtu.be/ORxQ-K3BzQA).
 
-- Extensive documentation [here](https://start.4geeksacademy.com).
+- [Extensive documentation here](https://start.4geeksacademy.com).
 - Integrated with Pipenv for package managing.
 - Fast deloyment to heroku with `$ pipenv run deploy`.
 - Use of `.env` file.
