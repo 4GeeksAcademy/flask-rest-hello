@@ -3,5 +3,9 @@
     "editor.defaultFormatter": "esbenp.prettier-vscode",
     "workbench.editorAssociations": {   
         "*.md": "vscode.markdown.preview.editor"
-    }
+    },
+    "[python]": {
+        "editor.defaultFormatter": "ms-python.autopep8"
+    },
+    "python.formatting.provider": "none"
 }
