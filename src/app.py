@@ -39,11 +39,42 @@ def sitemap():
 @app.route('/user', methods=['GET'])
 def handle_hello():
 
-    response_body = {
-        "msg": "Hello, this is your GET /user response "
+    # body = request.get_json()
+
+    # user = User.name
+
+    all_users = {
+        'msg': 'user db'
     }
 
-    return jsonify(response_body), 200
+    return all_users, 200
+
+@app.route('/people', methods=['GET'])
+def get_people():
+
+    all_people = {
+        'msg':'all people'
+    }
+
+    return jsonify(all_people), 200
+
+@app.route('/planets', methods=['GET'])
+def get_planets():
+
+    all_planets = {
+        'msg':'all Planets'
+    }
+
+    return jsonify(all_planets), 200
+
+@app.route('/favorites', methods=['GET'])
+def get_favorites():
+
+    all_favorites = {
+        'msg':'all favorites'
+    }
+
+    return jsonify(all_favorites), 200
 
 # this only runs if `$ python src/app.py` is executed
 if __name__ == '__main__':
