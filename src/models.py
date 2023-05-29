@@ -1,12 +1,12 @@
 from flask_sqlalchemy import SQLAlchemy
+
 # from eralchemy2 import render_er
 
 db = SQLAlchemy()
 
 
 class Users(db.Model):
-
-    __tablename__ = 'users'
+    __tablename__ = "users"
     id = db.Column(db.Integer, primary_key=True)
 
     name = db.Column(db.String(10), nullable=False)
@@ -14,15 +14,16 @@ class Users(db.Model):
     email = db.Column(db.String(20), unique=True, nullable=False)
     password = db.Column(db.String(50), nullable=False)
 
-    favourites_people = db.relationship(
-        "Favourites_people", backref='users', lazy=True)
+    favourites_people = db.relationship("Favourites_people", backref="users", lazy=True)
     favourites_vehicles = db.relationship(
-        "Favourites_vehicles", backref='users', lazy=True)
+        "Favourites_vehicles", backref="users", lazy=True
+    )
     favourites_planets = db.relationship(
-        "Favourites_planets", backref='users', lazy=True)
+        "Favourites_planets", backref="users", lazy=True
+    )
 
     def __repr__(self):
-        return '<Users %r>' % self.id
+        return "<Users %r>" % self.id
 
     def serialize(self):
         return {
@@ -35,11 +36,10 @@ class Users(db.Model):
 
 
 class People(db.Model):
-
-    __tablename__ = 'people'
+    __tablename__ = "people"
     id = db.Column(db.Integer, primary_key=True)
 
-    name = db.Column(db.String(10), unique=True, nullable=False)
+    name = db.Column(db.String(50), unique=True, nullable=False)
     gender = db.Column(db.String(10), nullable=False)
     birth_year = db.Column(db.String(10), nullable=False)
     eye_color = db.Column(db.String(10), nullable=False)
@@ -48,10 +48,11 @@ class People(db.Model):
     height = db.Column(db.Integer, nullable=False)
 
     favourites_persons = db.relationship(
-        "Favourites_people", backref='people', lazy=True)
+        "Favourites_people", backref="people", lazy=True
+    )
 
     def __repr__(self):
-        return '<People %r>' % self.id
+        return "<People %r>" % self.id
 
     def serialize(self):
         return {
@@ -67,7 +68,7 @@ class People(db.Model):
 
 
 class Vehicles(db.Model):
-    __tablename__ = 'vehicles'
+    __tablename__ = "vehicles"
     id = db.Column(db.Integer, primary_key=True)
 
     name = db.Column(db.String(20), unique=True, nullable=False)
@@ -83,10 +84,11 @@ class Vehicles(db.Model):
     consumables = db.Column(db.String(20), nullable=False)
 
     favourites_vehicles = db.relationship(
-        "Favourites_vehicles", backref='vehicles', lazy=True)
+        "Favourites_vehicles", backref="vehicles", lazy=True
+    )
 
     def __repr__(self):
-        return '<Vehicles %r>' % self.id
+        return "<Vehicles %r>" % self.id
 
     def serialize(self):
         return {
@@ -106,7 +108,7 @@ class Vehicles(db.Model):
 
 
 class Planets(db.Model):
-    __tablename__ = 'planets'
+    __tablename__ = "planets"
     id = db.Column(db.Integer, primary_key=True)
 
     name = db.Column(db.String(20), unique=True, nullable=False)
@@ -120,10 +122,11 @@ class Planets(db.Model):
     surface_water = db.Column(db.Integer, nullable=False)
 
     favourites_planets = db.relationship(
-        "Favourites_planets", backref='planets', lazy=True)
+        "Favourites_planets", backref="planets", lazy=True
+    )
 
     def __repr__(self):
-        return '<Planets %r>' % self.id
+        return "<Planets %r>" % self.id
 
     def serialize(self):
         return {
@@ -144,15 +147,14 @@ class Planets(db.Model):
 
 
 class Favourites_people(db.Model):
-    __tablename__ = 'favourites_people'
+    __tablename__ = "favourites_people"
     id = db.Column(db.Integer, primary_key=True)
 
-    user_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
-    person_id = db.Column(db.Integer, db.ForeignKey(
-        'people.id'), nullable=False)
+    user_id = db.Column(db.Integer, db.ForeignKey("users.id"), nullable=False)
+    person_id = db.Column(db.Integer, db.ForeignKey("people.id"), nullable=False)
 
     def __repr__(self):
-        return '<Favourites_people %r>' % self.id
+        return "<Favourites_people %r>" % self.id
 
     def serialize(self):
         person = People.query.filter_by(id=self.person_id).first()
@@ -161,20 +163,19 @@ class Favourites_people(db.Model):
         return {
             "id": self.id,
             "user_info": user.serialize(),
-            "person_info": person.serialize()
+            "person_info": person.serialize(),
         }
 
 
 class Favourites_vehicles(db.Model):
-    __tablename__ = 'favourites_vehicles'
+    __tablename__ = "favourites_vehicles"
     id = db.Column(db.Integer, primary_key=True)
 
-    user_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
-    vehicles_id = db.Column(db.Integer, db.ForeignKey(
-        'vehicles.id'), nullable=False)
+    user_id = db.Column(db.Integer, db.ForeignKey("users.id"), nullable=False)
+    vehicles_id = db.Column(db.Integer, db.ForeignKey("vehicles.id"), nullable=False)
 
     def __repr__(self):
-        return '<Favourites_vehicles %r>' % self.id
+        return "<Favourites_vehicles %r>" % self.id
 
     def serialize(self):
         vehicle = Vehicles.query.filter_by(id=self.vehicles_id).first()
@@ -183,20 +184,19 @@ class Favourites_vehicles(db.Model):
         return {
             "id": self.id,
             "user_info": user.serialize(),
-            "vehicle_info": vehicle.serialize()
+            "vehicle_info": vehicle.serialize(),
         }
 
 
 class Favourites_planets(db.Model):
-    __tablename__ = 'favourites_planets'
+    __tablename__ = "favourites_planets"
     id = db.Column(db.Integer, primary_key=True)
 
-    user_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
-    planets_id = db.Column(db.Integer, db.ForeignKey(
-        'planets.id'), nullable=False)
+    user_id = db.Column(db.Integer, db.ForeignKey("users.id"), nullable=False)
+    planets_id = db.Column(db.Integer, db.ForeignKey("planets.id"), nullable=False)
 
     def __repr__(self):
-        return '<Favourites_planets %r>' % self.id
+        return "<Favourites_planets %r>" % self.id
 
     def serialize(self):
         planet = Planets.query.filter_by(id=self.planets_id).first()
@@ -205,7 +205,8 @@ class Favourites_planets(db.Model):
         return {
             "id": self.id,
             "user_info": user.serialize(),
-            "planet_info": planet.serialize()
+            "planet_info": planet.serialize(),
         }
 
- # render_er(db.Model, 'diagram.png')
+
+# render_er(db.Model, 'diagram.png')
