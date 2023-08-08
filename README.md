@@ -6,16 +6,16 @@ Create flask API's in minutes, [📹 watch the video tutorial](https://youtu.be/
 
 - [Extensive documentation here](https://start.4geeksacademy.com).
 - Integrated with Pipenv for package managing.
-- Fast deloyment to heroku with `$ pipenv run deploy`.
+- Fast deloyment to render.com or heroku with `$ pipenv run deploy`.
 - Use of `.env` file.
 - SQLAlchemy integration for database abstraction.
 
 ## 1) Installation
 
-This template installs itself in a few seconds if you open it for free with Codespaces (recommended) or Gitpod. 
+This template installs itself in a few seconds if you open it for free with Codespaces (recommended) or Gitpod.
 Skip this installation steps and jump to step 2 if you decide to use any of those services.
 
-> Important: The boiplerplate is made for python 3.10 but you can easily change the `python_version` on the Pipfile.
+> Important: The boiplerplate is made for python 3.10 but you can change the `python_version` on the Pipfile.
 
 The following steps are automatically runned withing gitpod, if you are doing a local installation you have to do them manually:
 
@@ -47,10 +47,15 @@ $ pipenv run migrate # (to make the migrations)
 $ pipenv run upgrade  # (to update your databse with the migrations)
 ```
 
+## Check your API live
+
+1. Once you run the `pipenv run start` command your API will start running live and you can open it by clicking in the "ports" tab and then clicking "open browser".
+
+> ✋ If you are working on a coding cloud like [Codespaces](https://docs.github.com/en/codespaces/developing-in-codespaces/forwarding-ports-in-your-codespace#sharing-a-port) or [Gitpod](https://www.gitpod.io/docs/configure/workspaces/ports#configure-port-visibility) make sure that your forwared port is public.
+
 ## Publish/Deploy your website!
 
 This boilerplate it's 100% read to deploy with Render.com and Herkou in a matter of minutes. Please read the [official documentation about it](https://start.4geeksacademy.com/deploy).
-
 
 ### Contributors
 
