@@ -27,6 +27,8 @@ pipenv run migrate;
 pipenv run upgrade;
 ```
 
+> Note: Codespaces users can connect to psql by typing: `psql -h localhost -U gitpod example`
+
 ## 2) How to Start coding
 
 There is an example API working with an example database. All your application code should be written inside the `./src/` folder.
