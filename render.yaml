@@ -15,8 +15,8 @@ services:
         value: /
       - key: FLASK_APP
         value: src/app.py
-      - key: FLASK_DEBUG
-        value: 0
+      - key: DEBUG
+        value: TRUE
       - key: PYTHON_VERSION
         value: 3.10.6
       - key: DATABASE_URL # Render PostgreSQL database
