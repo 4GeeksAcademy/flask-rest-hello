@@ -55,7 +55,7 @@ class Characters(db.Model):
     
 class Favorite_character(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    favorite_character = db.Column(db.Integer, db.ForeignKey('characters.id'))
+    favorite_character = db.Column(db.String(125), db.ForeignKey('characters.name'))
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
     user = db.relationship("User")
 
@@ -71,7 +71,7 @@ class Favorite_character(db.Model):
 
 class Favorite_planet(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    favorite_planet = db.Column(db.Integer, db.ForeignKey('planets.id'))
+    favorite_planet = db.Column(db.String(125), db.ForeignKey('planets.name'))
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
     user = db.relationship("User")
 
