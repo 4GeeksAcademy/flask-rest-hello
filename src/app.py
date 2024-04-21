@@ -39,34 +39,50 @@ def sitemap():
 @app.route('/user', methods=['GET'])
 def get_user():
     users = User.query.all()
-    user_json = [{'id':user.id, 'email':user.email} for user in users]
+    user_json = [user.serialize() for user in users]
 
     return jsonify(user_json), 200
 
 @app.route('/user', methods=['POST'])
 def add_user():
     data = request.get_json()
-    if 'email' not in data or 'password' not in data or 'is_active' not in data:
-        return jsonify({'error': 'all fields are required'}), 400
+    if 'email' not in data or 'password' not in data:
+        raise APIException('all fields are required', status_code=400)
 
-    new_user = User(email=data['email'], password=data['password'], is_active=data['is_active'])
+    new_user = User(
+            email=data['email'], 
+            password=data['password'], 
+            is_active=data.get('is_active',True)
+    )
 
     db.session.add(new_user)
     db.session.commit()
 
     return jsonify({'message': 'Character added'}), 201 
 
+@app.route('/user/<int:user_id>', methods=['DELETE'])
+def delete_user(user_id):
+    try:
+        user = User.query.get(user_id)
+        db.session.delete(user)
+        db.session.commit()
+        return jsonify({'message': 'Favorite character erased'})
+    except Exception as e:
+        db.session.rollback()
+        raise APIException('error', status_code=500)
+    
+
 @app.route('/people', methods=['GET'])
 def get_all_characters():
     characters = Characters.query.all()
-    characters_json = [{'id':character.id, 'name':character.name, 'age':character.age, 'weight':character.weight} for character in characters]
+    characters_json = list(map(lambda x: x.serialize(), characters ))
     return jsonify(characters_json), 200
 
 @app.route('/people/<int:people_id>', methods=['GET'])
 def get_character(people_id):
     character = Characters.query.get(people_id)
     if character is None:
-        return jsonify({'error': 'character not found'}), 404 
+        raise APIException('error: character not found', status_code=404)
 
     character_json = {'id': character.id, 'name': character.name, 'age': character.age, 'weight': character.weight}
     return jsonify(character_json)
@@ -75,7 +91,7 @@ def get_character(people_id):
 def add_character():
     data = request.get_json()
     if 'name' not in data or 'age' not in data or 'weight' not in data:
-        return jsonify({'error': 'all fields are required'}), 400
+        raise APIException('all fields are required', status_code=400)
 
     new_character = Characters(name=data['name'], age=data['age'], weight=data['weight'])
 
@@ -87,14 +103,14 @@ def add_character():
 @app.route('/planets', methods=['GET'])
 def get_all_planets():
     planets = Planets.query.all()
-    planets_json = [{'id':planet.id, 'name':planet.name, 'population':planet.population} for planet in planets]
+    planets_json = [planet.serialize() for planet in planets]
     return jsonify(planets_json), 200
 
 @app.route('/planets/<int:planet_id>', methods=['GET'])
 def get_planet(planet_id):
     planet = Planets.query.get(planet_id) 
     if planet is None:
-        return jsonify({'error': 'Planet not found'}), 404 
+        raise APIException('planet not found', status_code=404) 
 
     planet_json = {'id': planet.id, 'planet_name': planet.name, 'population': planet.population}
     return jsonify(planet_json)
@@ -103,7 +119,7 @@ def get_planet(planet_id):
 def add_planet():
     data = request.get_json()
     if 'name' not in data or 'population' not in data:
-        return jsonify({'error': 'name and population required'}), 400
+        raise APIException('all fields are required', status_code=400)
 
     new_planet = Planets(name=data['name'], population=data['population'])
 
@@ -113,10 +129,10 @@ def add_planet():
     return jsonify({'message': 'Planet added'}), 201 
 
 @app.route('/favorite/planet/<int:planet_id>', methods=['POST'])
-def add_favorite_planet():
-    data = request.get_json()
+def add_favorite_planet(planet_id):
+    data = Planets.query.get(planet_id)
     if 'favorite_planet' not in data or 'user_id' not in data:
-        return jsonify({'error': 'favorite_planet and user_id required'}), 400
+        raise APIException('favorite_planet and user_id required', status_code=400)
 
     new_planet = Favorite_planet(name=data['favorite_planet'], user_id=data['user_id'])
 
@@ -129,7 +145,7 @@ def add_favorite_planet():
 def add_favorite_character():
     data = request.get_json()
     if 'favorite_character' not in data or 'user_id' not in data:
-        return jsonify({'error': 'favorite_character and user_id required'}), 400
+        raise APIException('favorite_character and user_id required', status_code=400)
 
     new_character = Favorite_character(name=data['favorite_character'], user_id=data['user_id'])
 
@@ -138,19 +154,19 @@ def add_favorite_character():
 
     return jsonify({'message': 'Favorite character added'}), 201  
 
-@app.route('/favorites', methods=['GET'])
-def get_all_favorites():
-    planets = Favorite_planet.query.all()
-    characters = Favorite_character.query.all()
-    planets_json = [{'user_id':planet.user_id, 'name':planet.favorite_planet} for planet in planets]
-    characters_json = [{'user_id':character.id, 'name':character.favorite_character} for character in characters]
+@app.route('/favorites/<int:user_id>', methods=['GET'])
+def get_all_favorites(user_id):
+    planets = Favorite_planet.query.all(user_id)
+    characters = Favorite_character.query.all(user_id)
+    planets_json = [planet.serialize() for planet in planets]
+    characters_json = [character.serialize() for character in characters]
     all_favorites = {'planets': planets_json, 'characters':characters_json}
     return jsonify(all_favorites), 200
 
 @app.route('/favorite/planet/<int:planet_id>', methods=['DELETE'])
 def delete_favorite_planet(planet_id):
     try:
-        planet = db.session.query(planet_id)
+        planet = Favorite_planet.query.get(planet_id)
         db.session.delete(planet)
         db.session.commit()
         return jsonify({'message': 'Favorite planet erased'})
@@ -161,7 +177,7 @@ def delete_favorite_planet(planet_id):
 @app.route('/favorite/planet/<int:people_id>', methods=['DELETE'])
 def delete_favorite_character(people_id):
     try:
-        character = db.session.query(people_id)
+        character = Favorite_character.query.get(people_id)
         db.session.delete(character)
         db.session.commit()
         return jsonify({'message': 'Favorite character erased'})
@@ -172,7 +188,7 @@ def delete_favorite_character(people_id):
 @app.route('/planets/<int:planet_id>', methods=['DELETE'])
 def delete_planet(planet_id):
     try:
-        planet = db.session.query(planet_id)
+        planet = Planets.query.get(planet_id)
         db.session.delete(planet)
         db.session.commit()
         return jsonify({'message': 'Planet erased'})
@@ -181,9 +197,9 @@ def delete_planet(planet_id):
         return jsonify({'error': str(e)}), 500
     
 @app.route('/people/<int:people_id>', methods=['DELETE'])
-def delete_character(character_id):
+def delete_character(people_id):
     try:
-        character = db.session.query(character_id)
+        character = Characters.query.get(people_id)
         db.session.delete(character)
         db.session.commit()
         return jsonify({'message': 'Character erased'})
@@ -197,7 +213,7 @@ def update_planet(planet_id):
         data = request.get_json()
         planet = Planets.query.get(planet_id)
         if planet is None:
-            return jsonify({'error': 'Planeta not found'}), 404
+            raise APIException('planet not found', status_code=404)
 
         if 'name' in data:
             planet.name = data['name']
@@ -210,12 +226,12 @@ def update_planet(planet_id):
         return jsonify({'error': str(e)}), 500
     
 @app.route('/people/<int:people_id>', methods=['PUT'])
-def update_character(character_id):
+def update_character(people_id):
     try:
         data = request.get_json()
-        character = Characters.query.get(character_id)
+        character = Characters.query.get(people_id)
         if character is None:
-            return jsonify({'error': 'Character not found'}), 404 
+            raise APIException('character not found', status_code=404) 
 
         if 'name' in data:
             character.name = data['name']

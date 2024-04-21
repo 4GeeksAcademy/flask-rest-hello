@@ -21,18 +21,18 @@ def upgrade():
     with op.batch_alter_table('favorite_character', schema=None) as batch_op:
         batch_op.alter_column('favorite_character',
                existing_type=sa.INTEGER(),
-               type_=sa.String(length=125),
+               type_=sa.INTEGER(),
                existing_nullable=True)
         batch_op.drop_constraint('favorite_character_favorite_character_fkey', type_='foreignkey')
-        batch_op.create_foreign_key(None, 'characters', ['favorite_character'], ['name'])
+        batch_op.create_foreign_key(None, 'characters', ['favorite_character'], ['id'])
 
     with op.batch_alter_table('favorite_planet', schema=None) as batch_op:
         batch_op.alter_column('favorite_planet',
                existing_type=sa.INTEGER(),
-               type_=sa.String(length=125),
+               type_=sa.INTEGER(),
                existing_nullable=True)
         batch_op.drop_constraint('favorite_planet_favorite_planet_fkey', type_='foreignkey')
-        batch_op.create_foreign_key(None, 'planets', ['favorite_planet'], ['name'])
+        batch_op.create_foreign_key(None, 'planets', ['favorite_planet'], ['id'])
 
     # ### end Alembic commands ###
 
