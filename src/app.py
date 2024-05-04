@@ -1,7 +1,7 @@
 """
 This module takes care of starting the API Server, Loading the DB and Adding the endpoints
 """
-import os
+import os, sys, signal
 from flask import Flask, request, jsonify, url_for
 from flask_migrate import Migrate
 from flask_swagger import swagger
@@ -13,12 +13,7 @@ from models import db, User
 
 app = Flask(__name__)
 app.url_map.strict_slashes = False
-
-db_url = os.getenv("DATABASE_URL")
-if db_url is not None:
-    app.config['SQLALCHEMY_DATABASE_URI'] = db_url.replace("postgres://", "postgresql://")
-else:
-    app.config['SQLALCHEMY_DATABASE_URI'] = "sqlite:////tmp/test.db"
+app.config['SQLALCHEMY_DATABASE_URI'] = "sqlite:////tmp/example.db"
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
 MIGRATE = Migrate(app, db)
@@ -49,3 +44,9 @@ def handle_hello():
 if __name__ == '__main__':
     PORT = int(os.environ.get('PORT', 3000))
     app.run(host='0.0.0.0', port=PORT, debug=False)
+
+with app.app_context():
+    if 'run' in sys.argv and len(db.engine.table_names()) == 0:
+        print("\033[1;91m\napp.py -> FATAL: unable to read database tables, did you forgot to run \033[4;93mpipenv run upgrade\033[24;91m?\033[0m\n")
+        os.kill(os.getpid(), signal.SIGTERM)
+
