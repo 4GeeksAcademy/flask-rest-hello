@@ -1,5 +1,6 @@
 .env
 .venv
+remake.log
 database.database
 database.db
 diagram.png
