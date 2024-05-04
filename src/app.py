@@ -48,6 +48,6 @@ if __name__ == '__main__':
 # checks and notify about a null database
 with app.app_context():
     if 'run' in sys.argv and len(db.engine.table_names()) == 0:
-        print("\033[1;91m\napp.py -> FATAL: unable to read database tables, did you forgot to run \033[4;93mpipenv run upgrade\033[24;91m?\033[0m\n")
+        print("\033[1;91m\napp.py -> FATAL: unable to read database tables, did you forgot to run \033[4;93mpipenv run upgrade\033[24;91m/\033[4;93mremake\033[24;91m?\033[0m\n")
         os.kill(os.getpid(), signal.SIGTERM)
 
