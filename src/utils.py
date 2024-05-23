@@ -1,4 +1,7 @@
-from flask import jsonify, url_for
+from fastapi import FastAPI, Request
+from starlette.middleware.cors import CORSMiddleware
+from fastapi.responses import JSONResponse, HTMLResponse
+from fastapi.routing import APIRoute
 
 class APIException(Exception):
     status_code = 400
@@ -14,28 +17,56 @@ class APIException(Exception):
         rv = dict(self.payload or ())
         rv['message'] = self.message
         return rv
+    
+def generate_sitemap(app: FastAPI):
+    links = [{ "method": 'GET', "url": '/admin/', "params": None }]
 
-def has_no_empty_params(rule):
-    defaults = rule.defaults if rule.defaults is not None else ()
-    arguments = rule.arguments if rule.arguments is not None else ()
-    return len(defaults) >= len(arguments)
+    for route in app.routes:
+        if isinstance(route, APIRoute):
+            for method in route.methods:
+                url = route.path
+                links.append({ "method": method, "url": url, "params": route.dependant.path_params })
 
-def generate_sitemap(app):
-    links = ['/admin/']
-    for rule in app.url_map.iter_rules():
-        # Filter out rules we can't navigate to in a browser
-        # and rules that require parameters
-        if "GET" in rule.methods and has_no_empty_params(rule):
-            url = url_for(rule.endpoint, **(rule.defaults or {}))
-            if "/admin/" not in url:
-                links.append(url)
+    links_html = ""
+    for r in links:
+        if r['params'] or r['method'] != "GET": links_html += f"<li>{r['method']} {r['url']}</li>"
+        else: links_html += f"<li><a href='{r['url']}'>{r['method']} {r['url']}</a></li>"
 
-    links_html = "".join(["<li><a href='" + y + "'>" + y + "</a></li>" for y in links])
-    return """
+    return f"""
         <div style="text-align: center;">
-        <img style="max-height: 80px" src='https://storage.googleapis.com/breathecode/boilerplates/rigo-baby.jpeg' />
-        <h1>Rigo welcomes you to your API!!</h1>
-        <p>API HOST: <script>document.write('<input style="padding: 5px; width: 300px" type="text" value="'+window.location.href+'" />');</script></p>
-        <p>Start working on your proyect by following the <a href="https://start.4geeksacademy.com/starters/flask" target="_blank">Quick Start</a></p>
-        <p>Remember to specify a real endpoint path like: </p>
-        <ul style="text-align: left;">"""+links_html+"</ul></div>"
+            <img style="max-height: 80px" src='https://storage.googleapis.com/breathecode/boilerplates/rigo-baby.jpeg' />
+            <h1>Rigo welcomes you to your API!!</h1>
+            <p>API HOST: <script>document.write('<input style="padding: 5px; width: 300px" type="text" value="'+window.location.href+'" />');</script></p>
+            <p>Start working on your project by following the <a href="https://start.4geeksacademy.com/starters/flask" target="_blank">Quick Start</a></p>
+            <p>Remember to specify a real endpoint path like: </p>
+            <ul style="text-align: left;">{links_html}</ul>
+        </div>
+    """
+
+def bootstrap_app(app):
+    app.add_middleware(
+        CORSMiddleware,
+        allow_origins=["*"],
+        allow_credentials=True,
+        allow_methods=["*"],
+        allow_headers=["*"],
+    )
+
+    # Disable strict slashes
+    for route in app.router.routes:
+        if isinstance(route, APIRoute):
+            route.strict_slashes = False
+
+
+    @app.exception_handler(APIException)
+    def api_exception_handler(request: Request, exc: APIException):
+        return JSONResponse(
+            status_code=exc.status_code,
+            content=exc.to_dict(),
+        )
+    
+    @app.get("/")
+    def read_root(request: Request):
+        return HTMLResponse(generate_sitemap(app))
+
+    return app

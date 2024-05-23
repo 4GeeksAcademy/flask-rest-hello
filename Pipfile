@@ -1,30 +1,30 @@
 [[source]]
-name = "pypi"
 url = "https://pypi.org/simple"
 verify_ssl = true
-
-[dev-packages]
+name = "pypi"
 
 [packages]
-flask = "*"
+fastapi = "*"
+uvicorn = "*"
 sqlalchemy = "*"
-flask-sqlalchemy = "*"
-flask-migrate = "*"
-flask-swagger = "*"
-psycopg2-binary = "*"
+databases = "*"
+alembic = "*"
+pydantic = "*"
 python-dotenv = "*"
-mysql-connector-python = "*"
-flask-cors = "*"
-gunicorn = "*"
-mysqlclient = "*"
-flask-admin = "*"
+fastapi-cors = "*"
+fastapi-amis-admin = "*"
+sqlmodel = "*"
+pydantic-settings = "*"
+psycopg2 = "*"
+asyncpg = "*"
+
+[dev-packages]
 
 [requires]
 python_version = "3.10"
 
 [scripts]
-start="flask run -p 3000 -h 0.0.0.0"
-init="flask db init"
-migrate="flask db migrate"
-upgrade="flask db upgrade"
+start = "uvicorn src.main:app --reload"
+migrate = "make migrate"
+upgrade = "make upgrade"
 deploy="echo 'Please follow this 3 steps to deploy: https://start.4geeksacademy.com/deploy/render' "
