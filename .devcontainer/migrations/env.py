@@ -78,7 +78,7 @@ def run_migrations_online():
         if not diff.upgrade_ops.is_empty():
             context.run_migrations()
         else:
-            print("No changes in schema detected.")
+            print("No changes in schema detected. An empty migration version file will be created under ./migrations/versions/ directory")
 
 
 if context.is_offline_mode():

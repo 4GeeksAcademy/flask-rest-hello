@@ -1,12 +1,12 @@
 image:
-  file: .gitpod.Dockerfile
+  file: ./devcontainer/.gitpod.Dockerfile
 ports:
-    - port: 3000
-      onOpen: open-preview
-      visibility: public
-    - port: 3306
-      onOpen: ignore
-      visibility: public
+  - port: 3000
+    onOpen: open-preview
+    visibility: public
+  - port: 3306
+    onOpen: ignore
+    visibility: public
 tasks:
   - init: >
       (cp -n .env.example .env || true) && 
@@ -14,10 +14,9 @@ tasks:
       psql -U gitpod -c 'CREATE DATABASE example;' &&
       psql -U gitpod -c 'CREATE EXTENSION unaccent;' -d example &&
       psql -c "ALTER USER gitpod PASSWORD 'postgres';" &&
-      bash database.sh &&
-      python docs/assets/welcome.py
+      pipenv init;
     command: >
-        pipenv run start;
+      pipenv run start;
 
 github:
   prebuilds:

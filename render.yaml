@@ -6,7 +6,7 @@ services:
     region: ohio
     name: flask-rest-hello
     env: python # valid values: https://render.com/docs/yaml-spec#environment
-    buildCommand: "make install && pipenv run upgrade"
+    buildCommand: "make install && make upgrade"
     startCommand: "make start"
     plan: free # optional; defaults to starter
     numInstances: 1

@@ -1,2 +1,2 @@
-release: pipenv run upgrade
+release: make upgrade
 web: make start

@@ -16,7 +16,7 @@ site = AdminSite(settings=Settings(database_url=SQLALCHEMY_DATABASE_URI))
 @site.register_admin
 class GitHubIframeAdmin(admin.IframeAdmin):
     # Set page menu information
-    page_schema = PageSchema(label='4Geeks Academy', icon='fa fa-github')
+    page_schema = PageSchema(label='Documentation', icon='fa fa-github')
     # Set the jump link
     src = 'https://4geeksacademy.com'
 
