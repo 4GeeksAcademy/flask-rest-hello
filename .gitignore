@@ -8,3 +8,4 @@ dist/*
 package.json
 !.vscode
 __pycache__/
+migrations
