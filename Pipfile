@@ -7,7 +7,6 @@ verify_ssl = true
 
 [packages]
 flask = "*"
-sqlalchemy = "*"
 flask-sqlalchemy = "*"
 flask-migrate = "*"
 flask-swagger = "*"
@@ -18,6 +17,7 @@ flask-cors = "*"
 gunicorn = "*"
 mysqlclient = "*"
 flask-admin = "*"
+sqlalchemy = "*"
 
 [requires]
 python_version = "3.10"
