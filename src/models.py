@@ -351,5 +351,8 @@ class Favorite(db.Model):
             
             
         }
+class prueba:
+    def algo(self):
+        return "algo"
 
     
