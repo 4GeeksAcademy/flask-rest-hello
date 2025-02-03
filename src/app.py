@@ -44,7 +44,14 @@ def get_characters():
 
 @app.route("/characters/<int:people_id>", methods=["GET"])
 def get_character(people_id):
-    character = Characters.query.get(people_id)
+    result = (
+        db.session.query(Characters, Planets)
+        .join(Planets, Characters.home_world == Planets.id)
+        .filter(Characters.id == people_id)
+        .first()
+    )
+    character, home_world = result
+    character.home_world = home_world
     return jsonify(character) if character else (jsonify({"error": "Character not found"}), 404)
 
 @app.route("/planets", methods=["GET"])
