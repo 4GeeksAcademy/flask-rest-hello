@@ -1,12 +1,12 @@
 image:
   file: .gitpod.Dockerfile
 ports:
-    - port: 3000
-      onOpen: open-preview
-      visibility: public
-    - port: 3306
-      onOpen: ignore
-      visibility: public
+  - port: 8080
+    onOpen: open-preview
+    visibility: public
+  - port: 3306
+    onOpen: ignore
+    visibility: public
 tasks:
   - init: >
       (cp -n .env.example .env || true) && 
@@ -17,7 +17,7 @@ tasks:
       bash database.sh &&
       python docs/assets/welcome.py
     command: >
-        pipenv run start;
+      pipenv run start;
 
 github:
   prebuilds:
