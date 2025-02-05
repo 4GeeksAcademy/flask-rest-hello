@@ -1,0 +1,3 @@
+Requirement already satisfied: sqlalchemy in /home/vscode/.local/share/virtualenvs/flask-rest-hello-QyisXx37/lib/python3.10/site-packages (2.0.37)
+Requirement already satisfied: greenlet!=0.4.17 in /home/vscode/.local/share/virtualenvs/flask-rest-hello-QyisXx37/lib/python3.10/site-packages (from sqlalchemy) (2.0.1)
+Requirement already satisfied: typing-extensions>=4.6.0 in /home/vscode/.local/share/virtualenvs/flask-rest-hello-QyisXx37/lib/python3.10/site-packages (from sqlalchemy) (4.12.2)
