@@ -10,7 +10,7 @@ from flask_migrate import Migrate
 from flask_cors import CORS
 from sqlalchemy import or_
 from models import Characters, FavouriteType, Favourites, Planets, Starships, Users, db
-from flask_jwt_extended import create_access_token, jwt_required, JWTManager, set_access_cookies, unset_jwt_cookies, get_jwt_identity
+from flask_jwt_extended import create_access_token, get_csrf_token, jwt_required, JWTManager, set_access_cookies, unset_jwt_cookies, get_jwt_identity
 
 app = Flask(__name__)
 app.url_map.strict_slashes = False
@@ -98,9 +98,11 @@ def get_login():
         return jsonify({"error": "Password not correct"}), 400
     
     access_token = create_access_token(identity=str(user.id))
+    csrf_token = get_csrf_token(access_token)
     response = jsonify({
         "msg": "login successful",
-        "user": user
+        "user": user,
+        "csrf_token": csrf_token
         })
     set_access_cookies(response, access_token)
     
