@@ -1,6 +1,6 @@
 from flask_sqlalchemy import SQLAlchemy
-from sqlalchemy.orm import mapped_column
-from sqlalchemy import Integer, String, Boolean
+from sqlalchemy.orm import mapped_column, Mapped
+from sqlalchemy import Integer, String
 
 db = SQLAlchemy()
 
@@ -8,18 +8,16 @@ db = SQLAlchemy()
 class User(db.Model):
     __tablename__ = "user"
 
-    id = mapped_column(Integer, primary_key=True)
-    email = mapped_column(String(120), nullable=False)
-    password = mapped_column(String(80))
-    is_active = mapped_column(Boolean)
-
-    def __repr__(self):
-        return '<User %r>' % self.username
+    id: Mapped[int] = mapped_column(primary_key=True)
+    email: Mapped[str] = mapped_column(String(120), nullable=False)
+    password: Mapped[str] = mapped_column(String(80))
+    is_active: Mapped[bool]
 
     def serialize(self):
         return {
             "id": self.id,
             "email": self.email,
+            "is_active": self.is_active
             # do not serialize the password, its a security breach
         }
 
