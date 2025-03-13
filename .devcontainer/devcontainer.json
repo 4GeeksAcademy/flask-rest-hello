@@ -24,6 +24,12 @@
 	// This can be used to network with other containers or the host.
 	"forwardPorts": [5432, 3000],
 
+	"portsAttributes": {
+		"3000": {
+			"visibility": "public"
+			}
+	},
+
 	"onCreateCommand": "cp -n .env.example .env && pipenv install",
 
 	// Use 'postCreateCommand' to run commands after the container is created.
