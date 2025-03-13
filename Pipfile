@@ -18,6 +18,7 @@ flask-cors = "==4.0.0"
 gunicorn = "*"
 flask-admin = "==1.6.1"
 wtforms = "==3.0.1"
+eralchemy2 = "*"
 
 [requires]
 python_version = "3.13"
@@ -27,4 +28,5 @@ start="flask run -p 3000 -h 0.0.0.0"
 init="flask db init"
 migrate="flask db migrate"
 upgrade="flask db upgrade"
+diagram = "eralchemy2 -i 'postgresql://gitpod:postgres@localhost:5432/example' -o diagram.png"
 deploy="echo 'Please follow this 3 steps to deploy: https://start.4geeksacademy.com/deploy/render' "

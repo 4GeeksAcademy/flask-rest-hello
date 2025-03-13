@@ -7,6 +7,26 @@ ENV PYTHONUNBUFFERED 1
 # RUN pip3 --disable-pip-version-check --no-cache-dir install -r /tmp/pip-tmp/requirements.txt \
 #    && rm -rf /tmp/pip-tmp
 
-#[Optional] Uncomment this section to install additional OS packages.
+# Installs system dependencies required for PostgreSQL and Graphviz, and cleans up to reduce image size
 RUN apt-get update && export DEBIAN_FRONTEND=noninteractive \
-    && apt-get -y install --no-install-recommends postgresql-client
+&& apt-get -y install --no-install-recommends \
+   postgresql-client \
+   graphviz \
+   graphviz-dev \
+&& rm -rf /var/lib/apt/lists/*  
+
+
+#  Install `pipenv` globally
+RUN pip install pipenv
+
+#  Use the same path as `workspaceFolder` in `devcontainer.json`
+WORKDIR /workspaces/${localWorkspaceFolderBasename}
+
+#  Copy Pipfile and Pipfile.lock first to leverage Docker cache
+COPY Pipfile Pipfile.lock ./
+
+#  Install Python dependencies with `pipenv`
+RUN pipenv install --dev --deploy --skip-lock
+
+#  Copy the rest of the code after installing dependencies
+COPY . ./
