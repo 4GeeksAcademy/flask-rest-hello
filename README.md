@@ -49,6 +49,16 @@ $ pipenv run migrate # (to make the migrations)
 $ pipenv run upgrade  # (to update your databse with the migrations)
 ```
 
+## Generate a database diagram
+
+If you want to visualize the structure of your database in the form of a diagram, you can generate it with the following command:
+
+```bash
+$ pipenv run diagram
+```
+
+This command will generate a file with the database diagram based on the models defined in `src/models.py`.
+
 ## Check your API live
 
 1. Once you run the `pipenv run start` command your API will start running live and you can open it by clicking in the "ports" tab and then clicking "open browser".
