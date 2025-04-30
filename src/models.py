@@ -35,6 +35,17 @@ class Planeta(db.Model):
     imagen_url: Mapped[str] = mapped_column(String(255), nullable=True)
     descripcion: Mapped[str] = mapped_column(Text, nullable=True)
 
+    def serialize(self):
+        return {
+            "id": self.id,
+            "nombre": self.nombre,
+            "diametro": self.diametro,
+            "clima": self.clima,
+            "poblacion": self.poblacion,
+            "imagen_url": self.imagen_url,
+            "descripcion": self.descripcion
+        }
+
     personajes = relationship("Personaje", back_populates="planeta_natal")
     favoritos = relationship("PlanetaFavorito", back_populates="planeta")
 
@@ -57,6 +68,18 @@ class Personaje(db.Model):
     planeta_natal = relationship("Planeta", back_populates="personajes")
     favoritos = relationship("PersonajeFavorito", back_populates="personaje")
 
+    def serialize(self):
+        return{
+            "id": self.id,
+            "nombre": self.nombre,
+            "especie": self.especie,
+            "altura": self.altura,
+            "peso": self.peso,
+            "genero": self.genero,
+            "imagen_url": self.imagen_url,
+            "descripcion": self.descripcion
+        }
+
 
 class Vehiculo(db.Model):
     __tablename__ = "vehiculos"
@@ -71,6 +94,19 @@ class Vehiculo(db.Model):
     imagen_url: Mapped[str] = mapped_column(String(255), nullable=True)
     descripcion: Mapped[str] = mapped_column(Text, nullable=True)
     personaje_id: Mapped[int] = mapped_column(ForeignKey("personajes.id"), nullable=True)
+
+    def serialize(self):
+        return {
+            "id": self.id,
+            "nombre": self.nombre,
+            "modelo": self.modelo,
+            "longitud": self.longitud,
+            "velocidad_maxima": self.velocidad_maxima,
+            "tripulacion": self.tripulacion,
+            "pasajeros": self.pasajeros,
+            "imagen_url": self.imagen_url,
+            "descripcion": self.descripcion
+        }
 
     personaje = relationship("Personaje", back_populates="vehiculo", uselist=False)
     favoritos = relationship("VehiculoFavorito", back_populates="vehiculo")
