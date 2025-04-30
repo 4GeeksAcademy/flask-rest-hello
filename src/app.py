@@ -36,16 +36,10 @@ def handle_invalid_usage(error):
 def sitemap():
     return generate_sitemap(app)
 
-
-
 @app.route('/people', methods=['GET'])
 def get_people():
     people = Personaje.query.all()
-    return jsonify()
-
-
-
-
+    return jsonify([personaje.serialize() for personaje in people]), 200
 
 # this only runs if `$ python src/app.py` is executed
 if __name__ == '__main__':
