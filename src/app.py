@@ -8,13 +8,13 @@ from flask_swagger import swagger
 from flask_cors import CORS
 from utils import APIException, generate_sitemap
 from admin import setup_admin
-from models import db, Personaje, Usuario, Planeta, Vehiculo, Usuario, Planeta, Vehiculo, PlanetaFavorito, PersonajeFavorito, VehiculoFavorito
+from models import db, Personaje, Usuario, Planeta, Vehiculo, PlanetaFavorito, PersonajeFavorito, VehiculoFavorito
 
-#from models import Person
 
 app = Flask(__name__)
 app.url_map.strict_slashes = False
 
+# Configuración de la base de datos
 db_url = os.getenv("DATABASE_URL")
 if db_url is not None:
     app.config['SQLALCHEMY_DATABASE_URI'] = db_url.replace("postgres://", "postgresql://")
@@ -22,21 +22,23 @@ else:
     app.config['SQLALCHEMY_DATABASE_URI'] = "sqlite:////tmp/test.db"
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
+# Inicialización de extensiones
 MIGRATE = Migrate(app, db)
 db.init_app(app)
 CORS(app)
 setup_admin(app)
 
-# Handle/serialize errors like a JSON object
+# Manejo global de errores personalizados
 @app.errorhandler(APIException)
 def handle_invalid_usage(error):
     return jsonify(error.to_dict()), error.status_code
 
-# generate sitemap with all your endpoints
+# Genera un mapa visual de todas las rutas
 @app.route('/')
 def sitemap():
     return generate_sitemap(app)
 
+# ENDPOINTS DE PERSONAJES
 @app.route('/people', methods=['GET'])
 def get_people():
     people = Personaje.query.all()
@@ -47,17 +49,29 @@ def get_personaje(people_id):
     personaje = Personaje.query.get_or_404(people_id)
     return jsonify(personaje.serialize()), 200
 
+# ENDPOINTS DE PLANETAS
 @app.route('/planets', methods=['GET'])
 def get_planetas():
     planetas = Planeta.query.all()
     return jsonify([planeta.serialize() for planeta in planetas]), 200
-
 
 @app.route('/planets/<int:planet_id>', methods=['GET'])
 def get_planeta(planet_id):
     planeta = Planeta.query.get_or_404(planet_id)
     return jsonify(planeta.serialize()), 200
 
+# ENDPOINTS DE VEHICULOS
+@app.route('/vehicles', methods=['GET'])
+def get_vehiculos():
+    vehiculos = Vehiculo.query.all()
+    return jsonify([vehiculo.serialize() for vehiculo in vehiculos]), 200
+
+@app.route('/vehicles/<int:vehicle_id>', methods=['GET'])
+def get_vehiculo(vehicle_id):
+    vehiculo = Vehiculo.query.get_or_404(vehicle_id)
+    return jsonify(vehiculo.serialize()), 200
+
+# ENDPOINTS DE USUARIOS Y FAVORITOS
 @app.route('/users', methods=['GET'])
 def get_users():
     response = Usuario.query.all()
@@ -75,12 +89,9 @@ def get_favorites():
         "personajes": [p.serialize() for p in Usuario.personajes_favoritos],
         "vehiculos": [v.serialize() for v in Usuario.vehiculos_favoritos],
     }
-
     return jsonify(favorites), 200
-@app.route('/people', methods=['GET'])
-def get_people():
-    people = Personaje.query.all()
-    return jsonify([personaje.serialize() for personaje in people]), 200
+
+# ENDPOINTS DE FAVORITOS - ELIMINAR
 
 @app.route('/favorite/planet/<int:planet_id>', method=['DELETE'])
 def delete_fav_planet(planet_id):
@@ -99,44 +110,58 @@ def delete_fav_planet(planet_id):
 @app.route('/favorite/people/<int:people_id>', method=['DELETE'])
 def delete_fav_person(people_id):
     user_id = Usuario.query.get(Usuario.id)
-    person = PersonajeFavorito.query.filter_by(usuario_id=user_id, personaje_id=people_id).first()
+    favorite = PersonajeFavorito.query.filter_by(usuario_id=user_id, personaje_id=people_id).first()
 
-    if not person:
+    if not favorite:
         return jsonify({"message": "Person not found"}), 404
 
-    db.session.delete(person)
+    db.session.delete(favorite)
     db.session.commit()
 
-    updated_people = PersonajeFavorito.query.filter_by(usuario_id=user_id).all()
-    return jsonify([p.serialize() for p in updated_people]), 200
+    updated_favorites = PersonajeFavorito.query.filter_by(usuario_id=user_id).all()
+    return jsonify([p.serialize() for p in updated_favorites]), 200
 
-@app.route('/planets/<int:planet_id>', method=['DELETE'])
-def delete_planet(planet_id):
-    planet = Planeta.query.filter_by(usuario_id=user_id, personaje_id=people_id).first()
-
-    if not person:
-        return jsonify({"message": "Person not found"}), 404
-
-    db.session.delete(person)
-    db.session.commit()
-
-    updated_people = PersonajeFavorito.query.filter_by(usuario_id=user_id).all()
-    return jsonify([p.serialize() for p in updated_people]), 200
-
-@app.route('/people', method=['DELETE'])
-def delete_fav_person(people_id):
+@app.route('/favorite/vehicle/<int:vehicle_id>', methods=['DELETE'])
+def delete_fav_vehiculo(vehicle_id):
     user_id = Usuario.query.get(Usuario.id)
-    person = PersonajeFavorito.query.filter_by(usuario_id=user_id, personaje_id=people_id).first()
+    favorite = VehiculoFavorito.query.filter_by(usuario_id=user_id, vehiculo_id=vehicle_id).first()
 
-    if not person:
-        return jsonify({"message": "Person not found"}), 404
+    if not favorite:
+        return jsonify({"message": "Vehículo favorito no encontrado"}), 404
 
-    db.session.delete(person)
+    db.session.delete(favorite)
     db.session.commit()
 
-    updated_people = PersonajeFavorito.query.filter_by(usuario_id=user_id).all()
-    return jsonify([p.serialize() for p in updated_people]), 200
+    updated_favorites = VehiculoFavorito.query.filter_by(usuario_id=user_id).all()
+    return jsonify([p.serialize() for p in updated_favorites]), 200
 
+# ENDPOINTS DE ELIMINAR
+
+@app.route('/planets/<int:planet_id>', methods=['DELETE'])
+def delete_planeta(planet_id):
+    planeta = Planeta.query.get_or_404(planet_id)
+
+    db.session.delete(planeta)
+    db.session.commit()
+    return jsonify({"msg": f"Planeta {planet_id} eliminado"}), 200
+
+@app.route('/people/<int:people_id>', methods=['DELETE'])
+def delete_personaje(people_id):
+    personaje = Personaje.query.get_or_404(people_id)
+
+    db.session.delete(personaje)
+    db.session.commit()
+    return jsonify({"msg": f"Personaje {people_id} eliminado"}), 200
+
+@app.route('/vehicles/<int:vehicle_id>', methods=['DELETE'])
+def delete_vehiculo(vehicle_id):
+    vehiculo = Vehiculo.query.get_or_404(vehicle_id)
+
+    db.session.delete(vehiculo)
+    db.session.commit()
+    return jsonify({"msg": f"Vehículo {vehicle_id} eliminado"}), 200
+
+# ENDPOINTS DE FAVORITOS - AÑADIR
 @app.route('/favorite/planet/<int:planet_id>', method=['POST'])
 def add_favorite_planet(planet_id):
     user = Usuario.query.get(Usuario.id)
@@ -171,6 +196,24 @@ def add_favorite_personaje(people_id):
     db.session.commit()
 
     return jsonify({'msg': 'Personaje añadido a favoritos', 'personaje': personaje.nombre}), 201
+
+@app.route('/favorite/vehicle/<int:vehicle_id>', methods=['POST'])
+def add_favorite_vehiculo(vehicle_id):
+    user = Usuario.query.get(Usuario.id)
+    vehiculo = Vehiculo.query.get(vehicle_id)
+
+    if not vehiculo:
+        return jsonify({'error': 'Vehículo no encontrado'}), 404
+
+    favorito_existente = next((fav for fav in user.vehiculos_favoritos if fav.vehiculo_id == vehicle_id), None)
+    if favorito_existente:
+        return jsonify({'msg': 'El vehículo ya está en favoritos'}), 400
+
+    nuevo_favorito = VehiculoFavorito(usuario_id=user.id, vehiculo_id=vehicle_id)
+    db.session.add(nuevo_favorito)
+    db.session.commit()
+
+    return jsonify({'msg': 'Vehículo añadido a favoritos','vehiculo': vehiculo.nombre}), 201
 
 
 # this only runs if `$ python src/app.py` is executed

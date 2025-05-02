@@ -36,8 +36,9 @@ class Usuario(db.Model):
     
     def serialize_with_relations(self):
         data = self.serialize()
-        data['made_by_teacher'] = self.made_by_teacher.serialize()
-        data['students'] = [student.serialize() for student in self.students]
+        data['planetas_favoritos'] = [pf.serialize() for pf in self.planetas_favoritos]
+        data['personajes_favoritos'] = [pef.serialize() for pef in self.personajes_favoritos]
+        data['vehiculos_favoritos'] = [vf.serialize() for vf in self.vehiculos_favoritos]
         return data
 
 
@@ -67,8 +68,8 @@ class Planeta(db.Model):
         }
     def serialize_with_relations(self):
         data = self.serialize()
-        data['made_by_teacher'] = self.made_by_teacher.serialize()
-        data['students'] = [student.serialize() for student in self.students]
+        data['personajes'] = [p.serialize() for p in self.personajes]
+        data['favoritos'] = [f.serialize() for f in self.favoritos]
         return data
 
 
@@ -103,8 +104,11 @@ class Personaje(db.Model):
     }
     def serialize_with_relations(self):
         data = self.serialize()
-        data['made_by_teacher'] = self.made_by_teacher.serialize()
-        data['students'] = [student.serialize() for student in self.students]
+        if self.planeta_natal:
+            data['planeta_natal'] = self.planeta_natal.serialize()
+        if self.vehiculo:
+            data['vehiculo'] = self.vehiculo.serialize()
+        data['favoritos'] = [f.serialize() for f in self.favoritos]
         return data
 
 
@@ -140,8 +144,9 @@ class Vehiculo(db.Model):
         }
     def serialize_with_relations(self):
         data = self.serialize()
-        data['made_by_teacher'] = self.made_by_teacher.serialize()
-        data['students'] = [student.serialize() for student in self.students]
+        if self.personaje:
+            data['personaje'] = self.personaje.serialize()
+        data['favoritos'] = [f.serialize() for f in self.favoritos]
         return data
 
 
@@ -152,6 +157,14 @@ class PlanetaFavorito(db.Model):
     usuario_id: Mapped[int] = mapped_column(ForeignKey("usuarios.id"), nullable=False)
     planeta_id: Mapped[int] = mapped_column(ForeignKey("planetas.id"), nullable=False)
     fecha_agregado: Mapped[datetime] = mapped_column(DateTime, default=func.now())
+
+    def serialize(self):
+        return {
+            "id": self.id,
+            "usuario_id": self.usuario_id,
+            "planeta_id": self.planeta_id,
+            "fecha_agregado": self.fecha_agregado
+        }
 
     usuario = relationship("Usuario", back_populates="planetas_favoritos")
     planeta = relationship("Planeta", back_populates="favoritos")
@@ -164,6 +177,14 @@ class PersonajeFavorito(db.Model):
     usuario_id: Mapped[int] = mapped_column(ForeignKey("usuarios.id"), nullable=False)
     personaje_id: Mapped[int] = mapped_column(ForeignKey("personajes.id"), nullable=False)
     fecha_agregado: Mapped[datetime] = mapped_column(DateTime, default=func.now())
+    
+    def serialize(self):
+        return {
+            "id": self.id,
+            "usuario_id": self.usuario_id,
+            "personaje_id": self.planeta_id,
+            "fecha_agregado": self.fecha_agregado
+        }
 
     usuario = relationship("Usuario", back_populates="personajes_favoritos")
     personaje = relationship("Personaje", back_populates="favoritos")
@@ -177,5 +198,13 @@ class VehiculoFavorito(db.Model):
     vehiculo_id: Mapped[int] = mapped_column(ForeignKey("vehiculos.id"), nullable=False)
     fecha_agregado: Mapped[datetime] = mapped_column(DateTime, default=func.now())
 
+    def serialize(self):
+        return {
+            "id": self.id,
+            "usuario_id": self.usuario_id,
+            "vehiculo_id": self.planeta_id,
+            "fecha_agregado": self.fecha_agregado
+        }
+    
     usuario = relationship("Usuario", back_populates="vehiculos_favoritos")
     vehiculo = relationship("Vehiculo", back_populates="favoritos")
