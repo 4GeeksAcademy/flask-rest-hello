@@ -8,7 +8,7 @@ from flask_swagger import swagger
 from flask_cors import CORS
 from utils import APIException, generate_sitemap
 from admin import setup_admin
-from models import db, Usuario
+from models import db, Usuario, PlanetaFavorito, VehiculoFavorito, PersonajeFavorito
 #from models import Person
 
 app = Flask(__name__)
@@ -43,9 +43,9 @@ def get_users():
 
 @app.route('/users/favorites', method=['GET'])
 def get_favorites():
-    user = Usuario.query.get(Usuario.id)
+    user_id = Usuario.query.get(Usuario.id)
 
-    if not user:
+    if not user_id:
         return jsonify({"error": "User not found"}), 404
 
     favorites = {
@@ -55,6 +55,34 @@ def get_favorites():
     }
 
     return jsonify(favorites), 200
+
+@app.route('/favorite/planet/<int:planet_id>', method=['DELETE'])
+def delete_fav_planet(planet_id):
+    user_id = Usuario.query.get(Usuario.id)
+    favorite = PlanetaFavorito.query.filter_by(usuario_id=user_id, planeta_id=planet_id).first()
+
+    if not favorite:
+        return jsonify({"message": "Favorite not found"}), 404
+
+    db.session.delete(favorite)
+    db.session.commit()
+
+    updated_favorites = PlanetaFavorito.query.filter_by(usuario_id=user_id).all()
+    return jsonify([fav.serialize() for fav in updated_favorites]), 200
+
+@app.route('/favorite/people/<int:people_id>', method=['DELETE'])
+def delete_fav_person(people_id):
+    user_id = Usuario.query.get(Usuario.id)
+    person = PersonajeFavorito.query.filter_by(usuario_id=user_id, personaje_id=people_id).first()
+
+    if not person:
+        return jsonify({"message": "Person not found"}), 404
+
+    db.session.delete(person)
+    db.session.commit()
+
+    updated_people = PersonajeFavorito.query.filter_by(usuario_id=user_id).all()
+    return jsonify([p.serialize() for p in updated_people]), 200
 
 @app.route('/')
 # this only runs if `$ python src/app.py` is executed
