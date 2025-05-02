@@ -122,6 +122,7 @@ class Vehiculo(db.Model):
     descripcion: Mapped[str] = mapped_column(Text, nullable=True)
     personaje_id: Mapped[int] = mapped_column(ForeignKey("personajes.id"), nullable=True)
 
+
     personaje = relationship("Personaje", back_populates="vehiculo", uselist=False)
     favoritos = relationship("VehiculoFavorito", back_populates="vehiculo")
 
@@ -142,9 +143,6 @@ class Vehiculo(db.Model):
         data['made_by_teacher'] = self.made_by_teacher.serialize()
         data['students'] = [student.serialize() for student in self.students]
         return data
-
-
-
 
 
 class PlanetaFavorito(db.Model):

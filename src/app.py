@@ -8,7 +8,7 @@ from flask_swagger import swagger
 from flask_cors import CORS
 from utils import APIException, generate_sitemap
 from admin import setup_admin
-from models import db, Personaje, Usuario, Planeta, Vehiculo, PlanetaFavorito, PersonajeFavorito, VehiculoFavorito
+from models import db, Personaje, Usuario, Planeta, Vehiculo, Usuario, Planeta, Vehiculo, PlanetaFavorito, PersonajeFavorito, VehiculoFavorito
 
 #from models import Person
 
