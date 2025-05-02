@@ -23,6 +23,23 @@ class Usuario(db.Model):
     personajes_favoritos = relationship("PersonajeFavorito", back_populates="usuario")
     vehiculos_favoritos = relationship("VehiculoFavorito", back_populates="usuario")
 
+    def serialize(self):
+        return {
+            "id": self.id,
+            "nombre": self.nombre,
+            "apellido": self.apellido,
+            "email": self.email,
+            "fecha_registro": self.fecha_registro,
+            "ultima_conexion": self.ultima_conexion,
+            "activo": self.activo
+        }
+    
+    def serialize_with_relations(self):
+        data = self.serialize()
+        data['made_by_teacher'] = self.made_by_teacher.serialize()
+        data['students'] = [student.serialize() for student in self.students]
+        return data
+
 
 class Planeta(db.Model):
     __tablename__ = "planetas"
@@ -37,6 +54,22 @@ class Planeta(db.Model):
 
     personajes = relationship("Personaje", back_populates="planeta_natal")
     favoritos = relationship("PlanetaFavorito", back_populates="planeta")
+
+    def serialize(self):
+        return {
+            "id": self.id,
+            "nombre": self.nombre,
+            "diametro": self.diametro,
+            "clima": self.clima,
+            "poblacion": self.poblacion,
+            "imagen_url": self.imagen_url,
+            "descripcion": self.descripcion
+        }
+    def serialize_with_relations(self):
+        data = self.serialize()
+        data['made_by_teacher'] = self.made_by_teacher.serialize()
+        data['students'] = [student.serialize() for student in self.students]
+        return data
 
 
 class Personaje(db.Model):
@@ -57,6 +90,23 @@ class Personaje(db.Model):
     planeta_natal = relationship("Planeta", back_populates="personajes")
     favoritos = relationship("PersonajeFavorito", back_populates="personaje")
 
+    def serialize(self):
+        return {
+            "id": self.id,
+            "nombre": self.nombre,
+            "especie": self.especie,
+            "altura": self.altura,
+            "peso": self.peso,
+            "genero": self.genero,
+            "imagen_url": self.imagen_url,
+            "descripcion": self.descripcion
+    }
+    def serialize_with_relations(self):
+        data = self.serialize()
+        data['made_by_teacher'] = self.made_by_teacher.serialize()
+        data['students'] = [student.serialize() for student in self.students]
+        return data
+
 
 class Vehiculo(db.Model):
     __tablename__ = "vehiculos"
@@ -74,6 +124,26 @@ class Vehiculo(db.Model):
 
     personaje = relationship("Personaje", back_populates="vehiculo", uselist=False)
     favoritos = relationship("VehiculoFavorito", back_populates="vehiculo")
+
+    def serialize(self):
+        return {
+            "id": self.id,
+            "nombre": self.nombre,
+            "modelo": self.modelo,
+            "longitud": self.longitud,
+            "velocidad_maxima": self.velocidad_maxima,
+            "tripulacion": self.tripulacion,
+            "pasajeros": self.pasajeros,
+            "imagen_url": self.imagen_url,
+            "descripcion": self.descripcion
+        }
+    def serialize_with_relations(self):
+        data = self.serialize()
+        data['made_by_teacher'] = self.made_by_teacher.serialize()
+        data['students'] = [student.serialize() for student in self.students]
+        return data
+
+
 
 
 
