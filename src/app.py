@@ -8,7 +8,7 @@ from flask_swagger import swagger
 from flask_cors import CORS
 from utils import APIException, generate_sitemap
 from admin import setup_admin
-from models import db, Usuario, PlanetaFavorito, VehiculoFavorito, PersonajeFavorito
+from models import db, Usuario, Planeta, Personaje, Vehiculo, PlanetaFavorito, PersonajeFavorito
 #from models import Person
 
 app = Flask(__name__)
@@ -71,6 +71,33 @@ def delete_fav_planet(planet_id):
     return jsonify([fav.serialize() for fav in updated_favorites]), 200
 
 @app.route('/favorite/people/<int:people_id>', method=['DELETE'])
+def delete_fav_person(people_id):
+    user_id = Usuario.query.get(Usuario.id)
+    person = PersonajeFavorito.query.filter_by(usuario_id=user_id, personaje_id=people_id).first()
+
+    if not person:
+        return jsonify({"message": "Person not found"}), 404
+
+    db.session.delete(person)
+    db.session.commit()
+
+    updated_people = PersonajeFavorito.query.filter_by(usuario_id=user_id).all()
+    return jsonify([p.serialize() for p in updated_people]), 200
+
+@app.route('/planets/<int:planet_id>', method=['DELETE'])
+def delete_planet(planet_id):
+    planet = Planeta.query.filter_by(usuario_id=user_id, personaje_id=people_id).first()
+
+    if not person:
+        return jsonify({"message": "Person not found"}), 404
+
+    db.session.delete(person)
+    db.session.commit()
+
+    updated_people = PersonajeFavorito.query.filter_by(usuario_id=user_id).all()
+    return jsonify([p.serialize() for p in updated_people]), 200
+
+@app.route('/people', method=['DELETE'])
 def delete_fav_person(people_id):
     user_id = Usuario.query.get(Usuario.id)
     person = PersonajeFavorito.query.filter_by(usuario_id=user_id, personaje_id=people_id).first()
