@@ -55,6 +55,10 @@ def get_favorites():
     }
 
     return jsonify(favorites), 200
+@app.route('/people', methods=['GET'])
+def get_people():
+    people = Personaje.query.all()
+    return jsonify([personaje.serialize() for personaje in people]), 200
 
 @app.route('/favorite/planet/<int:planet_id>', method=['DELETE'])
 def delete_fav_planet(planet_id):
@@ -111,7 +115,6 @@ def delete_fav_person(people_id):
     updated_people = PersonajeFavorito.query.filter_by(usuario_id=user_id).all()
     return jsonify([p.serialize() for p in updated_people]), 200
 
-@app.route('/')
 # this only runs if `$ python src/app.py` is executed
 if __name__ == '__main__':
     PORT = int(os.environ.get('PORT', 3000))
