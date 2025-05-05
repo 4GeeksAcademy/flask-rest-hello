@@ -92,7 +92,6 @@ def get_favorites():
     return jsonify(favorites), 200
 
 # ENDPOINTS DE FAVORITOS - ELIMINAR
-
 @app.route('/favorite/planet/<int:planet_id>', method=['DELETE'])
 def delete_fav_planet(planet_id):
     user_id = Usuario.query.get(Usuario.id)
@@ -136,7 +135,6 @@ def delete_fav_vehiculo(vehicle_id):
     return jsonify([p.serialize() for p in updated_favorites]), 200
 
 # ENDPOINTS DE ELIMINAR
-
 @app.route('/planets/<int:planet_id>', methods=['DELETE'])
 def delete_planeta(planet_id):
     planeta = Planeta.query.get_or_404(planet_id)
@@ -215,6 +213,82 @@ def add_favorite_vehiculo(vehicle_id):
 
     return jsonify({'msg': 'Vehículo añadido a favoritos','vehiculo': vehiculo.nombre}), 201
 
+### POSTs
+
+#POST Personajes
+@app.route('/people', methods=['POST'])
+def post_people():
+    request_body = request.get_json()
+
+    if not request_body:
+        return jsonify({"error": "Empty request body"}), 400
+
+    # Validate required fields and their types
+    if not isinstance(request_body.get("nombre"), str):
+        return jsonify({"error": "'nombre' must be a string"}), 400
+    if not isinstance(request_body.get("especie"), str):
+        return jsonify({"error": "'especie' must be a string"}), 400
+    if not isinstance(request_body.get("altura"), (int, float)):
+        return jsonify({"error": "'altura' must be a number"}), 400
+    if not isinstance(request_body.get("peso"), (int, float)):
+        return jsonify({"error": "'peso' must be a number"}), 400
+    if not isinstance(request_body.get("genero"), str):
+        return jsonify({"error": "'genero' must be a string"}), 400
+    if not isinstance(request_body.get("imagen_url"), str):
+        return jsonify({"error": "'imagen_url' must be a string"}), 400
+    if not isinstance(request_body.get("descripcion"), str):
+        return jsonify({"error": "'descripcion' must be a string"}), 400
+
+    # At this point, request_body is validated
+    # You can now create and save a new Personaje object, for example
+
+    return jsonify({"message": "Personaje created successfully"}), 201
+
+
+### PUTs
+# PUT Personajes
+@app.route('/people/<int:people_id>', methods=['PUT'])
+def put_people(people_id):
+    data = Personaje.query.get_or_404(people_id)
+    request_body = request.get_json()
+
+    if not request_body:
+        return jsonify({"error": "Empty request body"}), 400
+
+    # Validate required fields and their types
+    if not isinstance(request_body.get("nombre"), str):
+        return jsonify({"error": "'nombre' must be a string"}), 400
+    else:
+        data.nombre = request_body.nombre
+    if not isinstance(request_body.get("especie"), str):
+        return jsonify({"error": "'especie' must be a string"}), 400
+    else:
+        data.especie = request_body.especie
+    if not isinstance(request_body.get("altura"), (int, float)):
+        return jsonify({"error": "'altura' must be a number"}), 400
+    else:
+        data.altura = request_body.altura
+    if not isinstance(request_body.get("peso"), (int, float)):
+        return jsonify({"error": "'peso' must be a number"}), 400
+    else:
+        data.peso = request_body.peso
+    if not isinstance(request_body.get("genero"), str):
+        return jsonify({"error": "'genero' must be a string"}), 400
+    else:
+        data.genero = request_body.genero
+    if not isinstance(request_body.get("imagen_url"), str):
+        return jsonify({"error": "'imagen_url' must be a string"}), 400
+    else:
+        data.image_url = request_body.image_url
+    if not isinstance(request_body.get("descripcion"), str):
+        return jsonify({"error": "'descripcion' must be a string"}), 400
+    else:
+        data.descripcion = request_body.descripcion
+
+    # At this point, request_body is validated
+    # You can now create and save a new Personaje object, for example
+
+    return jsonify({"message": "Personaje updated successfully"}), 201
 
 # this only runs if `$ python src/app.py` is executed
 if __name__ == '__main__':
