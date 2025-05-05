@@ -8,7 +8,7 @@ from flask_swagger import swagger
 from flask_cors import CORS
 from utils import APIException, generate_sitemap
 from admin import setup_admin
-from models import db, Personaje, Usuario, Planeta, Vehiculo, PlanetaFavorito, PersonajeFavorito, VehiculoFavorito
+from models import *
 
 
 app = Flask(__name__)
@@ -77,7 +77,7 @@ def get_users():
     response = Usuario.query.all()
     return jsonify(response), 200
 
-@app.route('/users/favorites', method=['GET'])
+@app.route('/users/favorites', methods=['GET'])
 def get_favorites():
     user_id = Usuario.query.get(Usuario.id)
 
@@ -92,7 +92,7 @@ def get_favorites():
     return jsonify(favorites), 200
 
 # ENDPOINTS DE FAVORITOS - ELIMINAR
-@app.route('/favorite/planet/<int:planet_id>', method=['DELETE'])
+@app.route('/favorite/planet/<int:planet_id>', methods=['DELETE'])
 def delete_fav_planet(planet_id):
     user_id = Usuario.query.get(Usuario.id)
     favorite = PlanetaFavorito.query.filter_by(usuario_id=user_id, planeta_id=planet_id).first()
@@ -106,7 +106,7 @@ def delete_fav_planet(planet_id):
     updated_favorites = PlanetaFavorito.query.filter_by(usuario_id=user_id).all()
     return jsonify([fav.serialize() for fav in updated_favorites]), 200
 
-@app.route('/favorite/people/<int:people_id>', method=['DELETE'])
+@app.route('/favorite/people/<int:people_id>', methods=['DELETE'])
 def delete_fav_person(people_id):
     user_id = Usuario.query.get(Usuario.id)
     favorite = PersonajeFavorito.query.filter_by(usuario_id=user_id, personaje_id=people_id).first()
@@ -160,7 +160,7 @@ def delete_vehiculo(vehicle_id):
     return jsonify({"msg": f"Vehículo {vehicle_id} eliminado"}), 200
 
 # ENDPOINTS DE FAVORITOS - AÑADIR
-@app.route('/favorite/planet/<int:planet_id>', method=['POST'])
+@app.route('/favorite/planet/<int:planet_id>', methods=['POST'])
 def add_favorite_planet(planet_id):
     user = Usuario.query.get(Usuario.id)
     planeta = Planeta.query.get(planet_id)
@@ -177,7 +177,7 @@ def add_favorite_planet(planet_id):
 
     return jsonify({'msg': 'Planeta añadido a favoritos', 'planeta': planeta.nombre}), 201
 
-@app.route('/favorite/people/<int:people_id>', method=['POST'])
+@app.route('/favorite/people/<int:people_id>', methods=['POST'])
 def add_favorite_personaje(people_id):
     user = Usuario.query.get(Usuario.id)
     personaje = Personaje.query.get(people_id)
@@ -239,8 +239,18 @@ def post_people():
     if not isinstance(request_body.get("descripcion"), str):
         return jsonify({"error": "'descripcion' must be a string"}), 400
 
-    # At this point, request_body is validated
-    # You can now create and save a new Personaje object, for example
+    new_personaje = Personaje(
+        nombre=request_body['nombre'],
+        especie=request_body['especie'],
+        altura=request_body['altura'],
+        peso=request_body['peso'],
+        genero=request_body['genero'],
+        imagen_url=request_body['imagen_url'],
+        descripcion=request_body['descripcion']
+    )
+
+    db.session.add(new_personaje)
+    db.session.commit()
 
     return jsonify({"message": "Personaje created successfully"}), 201
 
@@ -255,7 +265,6 @@ def put_people(people_id):
     if not request_body:
         return jsonify({"error": "Empty request body"}), 400
 
-    # Validate required fields and their types
     if not isinstance(request_body.get("nombre"), str):
         return jsonify({"error": "'nombre' must be a string"}), 400
     else:
@@ -284,9 +293,6 @@ def put_people(people_id):
         return jsonify({"error": "'descripcion' must be a string"}), 400
     else:
         data.descripcion = request_body.descripcion
-
-    # At this point, request_body is validated
-    # You can now create and save a new Personaje object, for example
 
     return jsonify({"message": "Personaje updated successfully"}), 201
 
