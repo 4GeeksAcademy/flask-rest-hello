@@ -1,6 +1,8 @@
 from .database import db
 from sqlalchemy import String, Integer, ForeignKey, Text
 from sqlalchemy.orm import Mapped, mapped_column, relationship
+from .vehiculo import Vehiculo
+
 
 class Personaje(db.Model):
     __tablename__ = "personajes"
@@ -13,10 +15,17 @@ class Personaje(db.Model):
     genero: Mapped[str] = mapped_column(String(20), nullable=True)
     imagen_url: Mapped[str] = mapped_column(String(255), nullable=True)
     descripcion: Mapped[str] = mapped_column(Text, nullable=True)
-    planeta_natal_id: Mapped[int] = mapped_column(ForeignKey("planetas.id"), nullable=True)
-    vehiculo_id: Mapped[int] = mapped_column(ForeignKey("vehiculos.id"),unique = True, nullable=True)
+    planeta_natal_id: Mapped[int] = mapped_column(
+        ForeignKey("planetas.id"), nullable=True)
+    vehiculo_id: Mapped[int] = mapped_column(
+        ForeignKey("vehiculos.id"), unique=True, nullable=True)
 
-    vehiculo = relationship("Vehiculo", foreign_keys=[vehiculo_id], back_populates="personaje", uselist=False)
+    vehiculo = relationship(
+        "Vehiculo",
+        back_populates="personaje",
+        uselist=False,
+        # foreign_keys=[Vehiculo.personaje_id]
+    )
     planeta_natal = relationship("Planeta", back_populates="personajes")
     favoritos = relationship("PersonajeFavorito", back_populates="personaje")
 
@@ -30,7 +39,8 @@ class Personaje(db.Model):
             "genero": self.genero,
             "imagen_url": self.imagen_url,
             "descripcion": self.descripcion
-    }
+        }
+
     def serialize_with_relations(self):
         data = self.serialize()
         if self.planeta_natal:

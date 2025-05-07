@@ -8,7 +8,8 @@ from flask_swagger import swagger
 from flask_cors import CORS
 from utils import APIException, generate_sitemap
 from admin import setup_admin
-from models import *
+from models import Personaje, Vehiculo, Planeta, Usuario, PersonajeFavorito, VehiculoFavorito, PlanetaFavorito
+from models import db
 
 
 app = Flask(__name__)
@@ -17,7 +18,8 @@ app.url_map.strict_slashes = False
 # Configuración de la base de datos
 db_url = os.getenv("DATABASE_URL")
 if db_url is not None:
-    app.config['SQLALCHEMY_DATABASE_URI'] = db_url.replace("postgres://", "postgresql://")
+    app.config['SQLALCHEMY_DATABASE_URI'] = db_url.replace(
+        "postgres://", "postgresql://")
 else:
     app.config['SQLALCHEMY_DATABASE_URI'] = "sqlite:////tmp/test.db"
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
@@ -29,20 +31,27 @@ CORS(app)
 setup_admin(app)
 
 # Manejo global de errores personalizados
+
+
 @app.errorhandler(APIException)
 def handle_invalid_usage(error):
     return jsonify(error.to_dict()), error.status_code
 
 # Genera un mapa visual de todas las rutas
+
+
 @app.route('/')
 def sitemap():
     return generate_sitemap(app)
 
 # ENDPOINTS DE PERSONAJES
+
+
 @app.route('/people', methods=['GET'])
 def get_people():
     people = Personaje.query.all()
     return jsonify([personaje.serialize() for personaje in people]), 200
+
 
 @app.route('/people/<int:people_id>', methods=['GET'])
 def get_personaje(people_id):
@@ -50,10 +59,13 @@ def get_personaje(people_id):
     return jsonify(personaje.serialize()), 200
 
 # ENDPOINTS DE PLANETAS
+
+
 @app.route('/planets', methods=['GET'])
 def get_planetas():
     planetas = Planeta.query.all()
     return jsonify([planeta.serialize() for planeta in planetas]), 200
+
 
 @app.route('/planets/<int:planet_id>', methods=['GET'])
 def get_planeta(planet_id):
@@ -61,10 +73,13 @@ def get_planeta(planet_id):
     return jsonify(planeta.serialize()), 200
 
 # ENDPOINTS DE VEHICULOS
+
+
 @app.route('/vehicles', methods=['GET'])
 def get_vehiculos():
     vehiculos = Vehiculo.query.all()
     return jsonify([vehiculo.serialize() for vehiculo in vehiculos]), 200
+
 
 @app.route('/vehicles/<int:vehicle_id>', methods=['GET'])
 def get_vehiculo(vehicle_id):
@@ -72,10 +87,13 @@ def get_vehiculo(vehicle_id):
     return jsonify(vehiculo.serialize()), 200
 
 # ENDPOINTS DE USUARIOS Y FAVORITOS
+
+
 @app.route('/users', methods=['GET'])
 def get_users():
     response = Usuario.query.all()
     return jsonify(response), 200
+
 
 @app.route('/users/favorites', methods=['GET'])
 def get_favorites():
@@ -92,10 +110,13 @@ def get_favorites():
     return jsonify(favorites), 200
 
 # ENDPOINTS DE FAVORITOS - ELIMINAR
+
+
 @app.route('/favorite/planet/<int:planet_id>', methods=['DELETE'])
 def delete_fav_planet(planet_id):
     user_id = Usuario.query.get(Usuario.id)
-    favorite = PlanetaFavorito.query.filter_by(usuario_id=user_id, planeta_id=planet_id).first()
+    favorite = PlanetaFavorito.query.filter_by(
+        usuario_id=user_id, planeta_id=planet_id).first()
 
     if not favorite:
         return jsonify({"message": "Favorite not found"}), 404
@@ -103,13 +124,16 @@ def delete_fav_planet(planet_id):
     db.session.delete(favorite)
     db.session.commit()
 
-    updated_favorites = PlanetaFavorito.query.filter_by(usuario_id=user_id).all()
+    updated_favorites = PlanetaFavorito.query.filter_by(
+        usuario_id=user_id).all()
     return jsonify([fav.serialize() for fav in updated_favorites]), 200
+
 
 @app.route('/favorite/people/<int:people_id>', methods=['DELETE'])
 def delete_fav_person(people_id):
     user_id = Usuario.query.get(Usuario.id)
-    favorite = PersonajeFavorito.query.filter_by(usuario_id=user_id, personaje_id=people_id).first()
+    favorite = PersonajeFavorito.query.filter_by(
+        usuario_id=user_id, personaje_id=people_id).first()
 
     if not favorite:
         return jsonify({"message": "Person not found"}), 404
@@ -117,13 +141,16 @@ def delete_fav_person(people_id):
     db.session.delete(favorite)
     db.session.commit()
 
-    updated_favorites = PersonajeFavorito.query.filter_by(usuario_id=user_id).all()
+    updated_favorites = PersonajeFavorito.query.filter_by(
+        usuario_id=user_id).all()
     return jsonify([p.serialize() for p in updated_favorites]), 200
+
 
 @app.route('/favorite/vehicle/<int:vehicle_id>', methods=['DELETE'])
 def delete_fav_vehiculo(vehicle_id):
     user_id = Usuario.query.get(Usuario.id)
-    favorite = VehiculoFavorito.query.filter_by(usuario_id=user_id, vehiculo_id=vehicle_id).first()
+    favorite = VehiculoFavorito.query.filter_by(
+        usuario_id=user_id, vehiculo_id=vehicle_id).first()
 
     if not favorite:
         return jsonify({"message": "Vehículo favorito no encontrado"}), 404
@@ -131,10 +158,13 @@ def delete_fav_vehiculo(vehicle_id):
     db.session.delete(favorite)
     db.session.commit()
 
-    updated_favorites = VehiculoFavorito.query.filter_by(usuario_id=user_id).all()
+    updated_favorites = VehiculoFavorito.query.filter_by(
+        usuario_id=user_id).all()
     return jsonify([p.serialize() for p in updated_favorites]), 200
 
 # ENDPOINTS DE ELIMINAR
+
+
 @app.route('/planets/<int:planet_id>', methods=['DELETE'])
 def delete_planeta(planet_id):
     planeta = Planeta.query.get_or_404(planet_id)
@@ -143,6 +173,7 @@ def delete_planeta(planet_id):
     db.session.commit()
     return jsonify({"msg": f"Planeta {planet_id} eliminado"}), 200
 
+
 @app.route('/people/<int:people_id>', methods=['DELETE'])
 def delete_personaje(people_id):
     personaje = Personaje.query.get_or_404(people_id)
@@ -150,6 +181,7 @@ def delete_personaje(people_id):
     db.session.delete(personaje)
     db.session.commit()
     return jsonify({"msg": f"Personaje {people_id} eliminado"}), 200
+
 
 @app.route('/vehicles/<int:vehicle_id>', methods=['DELETE'])
 def delete_vehiculo(vehicle_id):
@@ -160,6 +192,8 @@ def delete_vehiculo(vehicle_id):
     return jsonify({"msg": f"Vehículo {vehicle_id} eliminado"}), 200
 
 # ENDPOINTS DE FAVORITOS - AÑADIR
+
+
 @app.route('/favorite/planet/<int:planet_id>', methods=['POST'])
 def add_favorite_planet(planet_id):
     user = Usuario.query.get(Usuario.id)
@@ -167,8 +201,9 @@ def add_favorite_planet(planet_id):
 
     if not planeta:
         return jsonify({'error': 'Planeta no encontrado'}), 404
-    
-    favorito_existente= next((fav for fav in user.planetas_favoritos if fav.planeta_id == planet_id), None)
+
+    favorito_existente = next(
+        (fav for fav in user.planetas_favoritos if fav.planeta_id == planet_id), None)
     if favorito_existente:
         return jsonify({'msg': 'El planeta ya está en favoritos'}), 400
     nuevo_favorito = PlanetaFavorito(usuario_id=user.id, planeta_id=planet_id)
@@ -177,6 +212,7 @@ def add_favorite_planet(planet_id):
 
     return jsonify({'msg': 'Planeta añadido a favoritos', 'planeta': planeta.nombre}), 201
 
+
 @app.route('/favorite/people/<int:people_id>', methods=['POST'])
 def add_favorite_personaje(people_id):
     user = Usuario.query.get(Usuario.id)
@@ -184,16 +220,19 @@ def add_favorite_personaje(people_id):
 
     if not personaje:
         return jsonify({'error': 'Personaje no encontrado'}), 404
-    
-    favorito_existente= next((fav for fav in user.persoanjes_favoritos if fav.personaje_id == people_id), None)
+
+    favorito_existente = next(
+        (fav for fav in user.persoanjes_favoritos if fav.personaje_id == people_id), None)
     if favorito_existente:
         return jsonify({'msg': 'El personaje ya está en favoritos'}), 400
-    
-    nuevo_favorito = PersonajeFavorito(usuario_id=user.id, personaje_id=people_id)
+
+    nuevo_favorito = PersonajeFavorito(
+        usuario_id=user.id, personaje_id=people_id)
     db.session.add(nuevo_favorito)
     db.session.commit()
 
     return jsonify({'msg': 'Personaje añadido a favoritos', 'personaje': personaje.nombre}), 201
+
 
 @app.route('/favorite/vehicle/<int:vehicle_id>', methods=['POST'])
 def add_favorite_vehiculo(vehicle_id):
@@ -203,19 +242,23 @@ def add_favorite_vehiculo(vehicle_id):
     if not vehiculo:
         return jsonify({'error': 'Vehículo no encontrado'}), 404
 
-    favorito_existente = next((fav for fav in user.vehiculos_favoritos if fav.vehiculo_id == vehicle_id), None)
+    favorito_existente = next(
+        (fav for fav in user.vehiculos_favoritos if fav.vehiculo_id == vehicle_id), None)
     if favorito_existente:
         return jsonify({'msg': 'El vehículo ya está en favoritos'}), 400
 
-    nuevo_favorito = VehiculoFavorito(usuario_id=user.id, vehiculo_id=vehicle_id)
+    nuevo_favorito = VehiculoFavorito(
+        usuario_id=user.id, vehiculo_id=vehicle_id)
     db.session.add(nuevo_favorito)
     db.session.commit()
 
-    return jsonify({'msg': 'Vehículo añadido a favoritos','vehiculo': vehiculo.nombre}), 201
+    return jsonify({'msg': 'Vehículo añadido a favoritos', 'vehiculo': vehiculo.nombre}), 201
 
-### POSTs
+# POSTs
 
-#POST Personajes
+# POST Personajes
+
+
 @app.route('/people', methods=['POST'])
 def post_people():
     request_body = request.get_json()
@@ -255,7 +298,7 @@ def post_people():
     return jsonify({"message": "Personaje created successfully"}), 201
 
 
-### PUTs
+# PUTs
 # PUT Personajes
 @app.route('/people/<int:people_id>', methods=['PUT'])
 def put_people(people_id):
@@ -295,6 +338,7 @@ def put_people(people_id):
         data.descripcion = request_body.descripcion
 
     return jsonify({"message": "Personaje updated successfully"}), 201
+
 
 # this only runs if `$ python src/app.py` is executed
 if __name__ == '__main__':
