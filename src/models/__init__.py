@@ -1,8 +1,6 @@
-from .favoritos import PersonajeFavorito, VehiculoFavorito, PlanetaFavorito
+from .database import db
 from .usuario import Usuario
-from .planeta import Planeta
-from .vehiculo import Vehiculo
 from .personaje import Personaje
-from flask_sqlalchemy import SQLAlchemy
-
-db = SQLAlchemy()
+from .vehiculo import Vehiculo
+from .planeta import Planeta
+from .associations import PersonajeFavorito, PlanetaFavorito, VehiculoFavorito

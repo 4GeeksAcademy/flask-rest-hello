@@ -1,6 +1,8 @@
 from .database import db
 from sqlalchemy import String, Integer, ForeignKey, Float, Text
 from sqlalchemy.orm import Mapped, mapped_column, relationship
+from .personaje import Personaje
+from .associations import VehiculoFavorito
 
 
 class Vehiculo(db.Model):
@@ -16,15 +18,18 @@ class Vehiculo(db.Model):
     imagen_url: Mapped[str] = mapped_column(String(255), nullable=True)
     descripcion: Mapped[str] = mapped_column(Text, nullable=True)
     personaje_id: Mapped[int] = mapped_column(
-        ForeignKey("personajes.id"), unique=True, nullable=True)
+        ForeignKey("personajes.id"), nullable=True)
 
-    personaje = relationship(
+    personaje: Mapped["Personaje"] = relationship(
         "Personaje",
         back_populates="vehiculo",
         uselist=False,
-        # foreign_keys=[personaje_id]
+        foreign_keys="Personaje.vehiculo_id",
+        remote_side="Personaje.vehiculo_id",
+        primaryjoin="Vehiculo.id == Personaje.vehiculo_id"
     )
-    favoritos = relationship("VehiculoFavorito", back_populates="vehiculo")
+    favoritos: Mapped["VehiculoFavorito"] = relationship(
+        "VehiculoFavorito", back_populates="vehiculo")
 
     def serialize(self):
         return {
@@ -36,7 +41,8 @@ class Vehiculo(db.Model):
             "tripulacion": self.tripulacion,
             "pasajeros": self.pasajeros,
             "imagen_url": self.imagen_url,
-            "descripcion": self.descripcion
+            "descripcion": self.descripcion,
+            "personaje_id": self.personaje_id
         }
 
     def serialize_with_relations(self):

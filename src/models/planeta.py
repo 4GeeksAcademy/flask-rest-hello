@@ -1,6 +1,9 @@
 from .database import db
 from sqlalchemy import String, Integer, Text
 from sqlalchemy.orm import Mapped, mapped_column, relationship
+from .personaje import Personaje
+from .associations import PlanetaFavorito
+
 
 class Planeta(db.Model):
     __tablename__ = "planetas"
@@ -13,8 +16,10 @@ class Planeta(db.Model):
     imagen_url: Mapped[str] = mapped_column(String(255), nullable=True)
     descripcion: Mapped[str] = mapped_column(Text, nullable=True)
 
-    personajes = relationship("Personaje", back_populates="planeta_natal")
-    favoritos = relationship("PlanetaFavorito", back_populates="planeta")
+    personajes: Mapped["Personaje"] = relationship(
+        "Personaje", back_populates="planeta_natal")
+    favoritos: Mapped["PlanetaFavorito"] = relationship(
+        "PlanetaFavorito", back_populates="planeta")
 
     def serialize(self):
         return {
@@ -26,6 +31,7 @@ class Planeta(db.Model):
             "imagen_url": self.imagen_url,
             "descripcion": self.descripcion
         }
+
     def serialize_with_relations(self):
         data = self.serialize()
         data['personajes'] = [p.serialize() for p in self.personajes]
