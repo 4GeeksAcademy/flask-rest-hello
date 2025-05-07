@@ -306,7 +306,6 @@ def post_people():
 @app.route('/planeta', methods=['POST'])
 def post_planeta():
     request_body = request.get_json()
-
     if not request_body:
         return jsonify({"error": "Empty request body"}), 400
 
