@@ -17,7 +17,14 @@ class Vehiculo(db.Model):
     personaje_id: Mapped[int] = mapped_column(ForeignKey("personajes.id"), nullable=True)
 
 
-    personaje = relationship("Personaje", foreign_keys=[personaje_id], back_populates="vehiculo", uselist=False)
+    personaje = relationship(
+        "Personaje",
+        back_populates="vehiculo",
+        uselist=False,
+        foreign_keys="Personaje.vehiculo_id",  # Indica quién posee la relación
+        remote_side="Personaje.vehiculo_id",
+        primaryjoin="Vehiculo.id == Personaje.vehiculo_id"  # Condición explícita
+    )
     favoritos = relationship("VehiculoFavorito", back_populates="vehiculo")
 
     def serialize(self):
@@ -30,7 +37,8 @@ class Vehiculo(db.Model):
             "tripulacion": self.tripulacion,
             "pasajeros": self.pasajeros,
             "imagen_url": self.imagen_url,
-            "descripcion": self.descripcion
+            "descripcion": self.descripcion,
+            "personaje_id": self.personaje_id
         }
     def serialize_with_relations(self):
         data = self.serialize()

@@ -8,7 +8,7 @@ from flask_swagger import swagger
 from flask_cors import CORS
 from utils import APIException, generate_sitemap
 from admin import setup_admin
-from models import *
+from models import db, Personaje, Planeta, Vehiculo, Usuario, PersonajeFavorito, PlanetaFavorito, VehiculoFavorito
 
 
 app = Flask(__name__)
@@ -27,6 +27,10 @@ MIGRATE = Migrate(app, db)
 db.init_app(app)
 CORS(app)
 setup_admin(app)
+
+with app.app_context():
+    print("Tablas registradas:", db.metadata.tables.keys())
+    db.create_all()
 
 # Manejo global de errores personalizados
 @app.errorhandler(APIException)
@@ -256,45 +260,115 @@ def post_people():
 
 
 ### PUTs
+
+def validar_tipo(valor, tipo_esperado, nombre_campo):
+    if valor is not None and not isinstance(valor, tipo_esperado):
+        raise ValueError(f"Campo '{nombre_campo}' debe ser de tipo {tipo_esperado.__name__}")
+
 # PUT Personajes
 @app.route('/people/<int:people_id>', methods=['PUT'])
-def put_people(people_id):
-    data = Personaje.query.get_or_404(people_id)
-    request_body = request.get_json()
+def update_personaje(people_id):
+    personaje = Personaje.query.get_or_404(people_id)
+    data = request.get_json()
 
-    if not request_body:
-        return jsonify({"error": "Empty request body"}), 400
+    try:
+        if "nombre" in data:
+            validar_tipo(data["nombre"], str, "nombre")
+            personaje.nombre = data["nombre"]
+        if "especie" in data:
+            validar_tipo(data["especie"], str, "especie")
+            personaje.especie = data["especie"]
+        if "altura" in data:
+            validar_tipo(data["altura"], int, "altura")
+            personaje.altura = data["altura"]
+        if "peso" in data:
+            validar_tipo(data["peso"], int, "peso")
+            personaje.peso = data["peso"]
+        if "genero" in data:
+            validar_tipo(data["genero"], str, "genero")
+            personaje.genero = data["genero"]
+        if "descripcion" in data:
+            validar_tipo(data["descripcion"], str, "descripcion")
+            personaje.descripcion = data["descripcion"]
+        if "planeta_natal_id" in data:
+            validar_tipo(data["planeta_natal_id"], int, "planeta_natal_id")
+            personaje.planeta_natal_id = data["planeta_natal_id"]
+        if "vehiculo_id" in data:
+            validar_tipo(data["vehiculo_id"], int, "vehiculo_id")
+            personaje.vehiculo_id = data["vehiculo_id"]
 
-    if not isinstance(request_body.get("nombre"), str):
-        return jsonify({"error": "'nombre' must be a string"}), 400
-    else:
-        data.nombre = request_body.nombre
-    if not isinstance(request_body.get("especie"), str):
-        return jsonify({"error": "'especie' must be a string"}), 400
-    else:
-        data.especie = request_body.especie
-    if not isinstance(request_body.get("altura"), (int, float)):
-        return jsonify({"error": "'altura' must be a number"}), 400
-    else:
-        data.altura = request_body.altura
-    if not isinstance(request_body.get("peso"), (int, float)):
-        return jsonify({"error": "'peso' must be a number"}), 400
-    else:
-        data.peso = request_body.peso
-    if not isinstance(request_body.get("genero"), str):
-        return jsonify({"error": "'genero' must be a string"}), 400
-    else:
-        data.genero = request_body.genero
-    if not isinstance(request_body.get("imagen_url"), str):
-        return jsonify({"error": "'imagen_url' must be a string"}), 400
-    else:
-        data.image_url = request_body.image_url
-    if not isinstance(request_body.get("descripcion"), str):
-        return jsonify({"error": "'descripcion' must be a string"}), 400
-    else:
-        data.descripcion = request_body.descripcion
+    except ValueError as e:
+        return jsonify({"error": str(e)}), 400
 
-    return jsonify({"message": "Personaje updated successfully"}), 201
+    db.session.commit()
+    return jsonify(personaje.serialize()), 200
+
+# PUT Planetas
+@app.route('/planets/<int:planet_id>', methods=['PUT'])
+def update_planeta(planet_id):
+    planeta = Planeta.query.get_or_404(planet_id)
+    data = request.get_json()
+
+    try:
+        if "nombre" in data:
+            validar_tipo(data["nombre"], str, "nombre")
+            planeta.nombre = data["nombre"]
+        if "diametro" in data:
+            validar_tipo(data["diametro"], int, "diametro")
+            planeta.diametro = data["diametro"]
+        if "clima" in data:
+            validar_tipo(data["clima"], str, "clima")
+            planeta.clima = data["clima"]
+        if "poblacion" in data:
+            validar_tipo(data["poblacion"], int, "poblacion")
+            planeta.poblacion = data["poblacion"]
+        if "descripcion" in data:
+            validar_tipo(data["descripcion"], str, "descripcion")
+            planeta.descripcion = data["descripcion"]
+
+    except ValueError as e:
+        return jsonify({"error": str(e)}), 400
+
+    db.session.commit()
+    return jsonify(planeta.serialize()), 200
+
+# PUT Vehiculos
+@app.route('/vehicles/<int:vehicle_id>', methods=['PUT'])
+def update_vehiculo(vehicle_id):
+    vehiculo = Vehiculo.query.get_or_404(vehicle_id)
+    data = request.get_json()
+
+    try:
+        if "nombre" in data:
+            validar_tipo(data["nombre"], str, "nombre")
+            vehiculo.nombre = data["nombre"]
+        if "modelo" in data:
+            validar_tipo(data["modelo"], str, "modelo")
+            vehiculo.modelo = data["modelo"]
+        if "longitud" in data:
+            validar_tipo(data["longitud"], float, "longitud")
+            vehiculo.longitud = data["longitud"]
+        if "velocidad_maxima" in data:
+            validar_tipo(data["velocidad_maxima"], int, "velocidad_maxima")
+            vehiculo.velocidad_maxima = data["velocidad_maxima"]
+        if "tripulacion" in data:
+            validar_tipo(data["tripulacion"], int, "tripulacion")
+            vehiculo.tripulacion = data["tripulacion"]
+        if "pasajeros" in data:
+            validar_tipo(data["pasajeros"], int, "pasajeros")
+            vehiculo.pasajeros = data["pasajeros"]
+        if "descripcion" in data:
+            validar_tipo(data["descripcion"], str, "descripcion")
+            vehiculo.descripcion = data["descripcion"]
+        if "personaje_id" in data:
+            validar_tipo(data["personaje_id"], int, "personaje_id")
+            vehiculo.personaje_id = data["personaje_id"]
+
+    except ValueError as e:
+        return jsonify({"error": str(e)}), 400
+
+    db.session.commit()
+    return jsonify(vehiculo.serialize()), 200
 
 # this only runs if `$ python src/app.py` is executed
 if __name__ == '__main__':

@@ -16,7 +16,12 @@ class Personaje(db.Model):
     planeta_natal_id: Mapped[int] = mapped_column(ForeignKey("planetas.id"), nullable=True)
     vehiculo_id: Mapped[int] = mapped_column(ForeignKey("vehiculos.id"),unique = True, nullable=True)
 
-    vehiculo = relationship("Vehiculo", foreign_keys=[vehiculo_id], back_populates="personaje", uselist=False)
+    vehiculo = relationship(
+        "Vehiculo",
+        foreign_keys=[vehiculo_id],
+        back_populates="personaje",
+        uselist=False
+    )
     planeta_natal = relationship("Planeta", back_populates="personajes")
     favoritos = relationship("PersonajeFavorito", back_populates="personaje")
 
@@ -29,8 +34,10 @@ class Personaje(db.Model):
             "peso": self.peso,
             "genero": self.genero,
             "imagen_url": self.imagen_url,
-            "descripcion": self.descripcion
-    }
+            "descripcion": self.descripcion,
+            "planeta_natal_id": self.planeta_natal_id,
+            "vehiculo_id": self.vehiculo_id
+        }
     def serialize_with_relations(self):
         data = self.serialize()
         if self.planeta_natal:
