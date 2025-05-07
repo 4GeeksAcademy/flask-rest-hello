@@ -1,8 +1,11 @@
 from .database import db
 from sqlalchemy import String, Integer, ForeignKey, Float, Text
 from sqlalchemy.orm import Mapped, mapped_column, relationship
-from .personaje import Personaje
+from typing import TYPE_CHECKING
 from .associations import VehiculoFavorito
+
+if TYPE_CHECKING:
+    from .personaje import Personaje
 
 
 class Vehiculo(db.Model):
