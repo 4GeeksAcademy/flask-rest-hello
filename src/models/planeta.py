@@ -1,8 +1,11 @@
 from .database import db
 from sqlalchemy import String, Integer, Text
 from sqlalchemy.orm import Mapped, mapped_column, relationship
-from .personaje import Personaje
 from .associations import PlanetaFavorito
+from typing import TYPE_CHECKING
+
+if TYPE_CHECKING:
+    from .personaje import Personaje
 
 
 class Planeta(db.Model):
