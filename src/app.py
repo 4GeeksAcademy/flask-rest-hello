@@ -56,10 +56,7 @@ def sitemap():
     return generate_sitemap(app)
 
 
-def validar_tipo(valor, tipo_esperado, nombre_campo):
-    if valor is not None and not isinstance(valor, tipo_esperado):
-        raise ValueError(
-            f"Campo '{nombre_campo}' debe ser de tipo {tipo_esperado.__name__}")
+
 
 
 # this only runs if `$ python src/app.py` is executed

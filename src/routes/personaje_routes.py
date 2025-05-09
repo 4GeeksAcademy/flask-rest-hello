@@ -1,7 +1,7 @@
 from flask import Blueprint, jsonify, request
 from models.personaje import Personaje
 from models.database import db
-from app import validar_tipo
+
 
 personaje_bp = Blueprint('personajes', __name__, url_prefix='/people')
 
@@ -65,6 +65,10 @@ def post_people():
 
     return jsonify({"message": "Personaje created successfully"}), 201
 
+def validar_tipo(valor, tipo_esperado, nombre_campo):
+    if valor is not None and not isinstance(valor, tipo_esperado):
+        raise ValueError(
+            f"Campo '{nombre_campo}' debe ser de tipo {tipo_esperado.__name__}")
 
 @personaje_bp.route('/<int:people_id>', methods=['PUT'])
 def update_personaje(people_id):

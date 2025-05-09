@@ -1,7 +1,6 @@
 from flask import Blueprint, jsonify, request
 from models import db, Personaje, Planeta, Vehiculo, Usuario, PersonajeFavorito, PlanetaFavorito, VehiculoFavorito
 from models.database import db
-from app import validar_tipo
 
 favoritos_bp = Blueprint('favoritos', __name__, url_prefix='/favorite')
 

@@ -2,7 +2,7 @@ from flask import Blueprint, jsonify, request
 from models.vehiculo import Vehiculo
 from models.planeta import Planeta
 from models.database import db
-from app import validar_tipo
+
 
 vehiculo_bp = Blueprint('vehiculo', __name__, url_prefix='/vehicles')
 
@@ -69,6 +69,10 @@ def post_vehiculo():
 
     return jsonify({"message": "Vehiculo created successfully"}), 201
 
+def validar_tipo(valor, tipo_esperado, nombre_campo):
+    if valor is not None and not isinstance(valor, tipo_esperado):
+        raise ValueError(
+            f"Campo '{nombre_campo}' debe ser de tipo {tipo_esperado.__name__}")
 
 @vehiculo_bp.route('/<int:vehicle_id>', methods=['PUT'])
 def update_vehiculo(vehicle_id):
