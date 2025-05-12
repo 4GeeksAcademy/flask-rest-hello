@@ -43,20 +43,15 @@ app.register_blueprint(favoritos_bp)
 
 # Manejo global de errores personalizados
 
-
 @app.errorhandler(APIException)
 def handle_invalid_usage(error):
     return jsonify(error.to_dict()), error.status_code
 
 # Genera un mapa visual de todas las rutas
 
-
 @app.route('/')
 def sitemap():
     return generate_sitemap(app)
-
-
-
 
 
 # this only runs if `$ python src/app.py` is executed

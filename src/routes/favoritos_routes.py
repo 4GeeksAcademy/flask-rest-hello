@@ -5,7 +5,7 @@ from models.database import db
 favoritos_bp = Blueprint('favoritos', __name__, url_prefix='/favorite')
 
 
-@favoritos_bp.route('/favorite/planet/<int:planet_id>', methods=['DELETE'])
+@favoritos_bp.route('/planet/<int:planet_id>', methods=['DELETE'])
 def delete_fav_planet(planet_id):
     user_id = Usuario.query.get(Usuario.id)
     favorite = PlanetaFavorito.query.filter_by(
@@ -22,7 +22,7 @@ def delete_fav_planet(planet_id):
     return jsonify([fav.serialize() for fav in updated_favorites]), 200
 
 
-@favoritos_bp.route('/favorite/people/<int:people_id>', methods=['DELETE'])
+@favoritos_bp.route('/people/<int:people_id>', methods=['DELETE'])
 def delete_fav_person(people_id):
     user_id = Usuario.query.get(Usuario.id)
     favorite = PersonajeFavorito.query.filter_by(
@@ -39,7 +39,7 @@ def delete_fav_person(people_id):
     return jsonify([p.serialize() for p in updated_favorites]), 200
 
 
-@favoritos_bp.route('/favorite/vehicle/<int:vehicle_id>', methods=['DELETE'])
+@favoritos_bp.route('/vehicle/<int:vehicle_id>', methods=['DELETE'])
 def delete_fav_vehiculo(vehicle_id):
     user_id = Usuario.query.get(Usuario.id)
     favorite = VehiculoFavorito.query.filter_by(
@@ -56,7 +56,7 @@ def delete_fav_vehiculo(vehicle_id):
     return jsonify([p.serialize() for p in updated_favorites]), 200
 
 
-@favoritos_bp.route('/favorite/planet/<int:planet_id>', methods=['POST'])
+@favoritos_bp.route('/planet/<int:planet_id>', methods=['POST'])
 def add_favorite_planet(planet_id):
     user = Usuario.query.get(Usuario.id)
     planeta = Planeta.query.get(planet_id)
@@ -75,7 +75,7 @@ def add_favorite_planet(planet_id):
     return jsonify({'msg': 'Planeta añadido a favoritos', 'planeta': planeta.nombre}), 201
 
 
-@favoritos_bp.route('/favorite/people/<int:people_id>', methods=['POST'])
+@favoritos_bp.route('/people/<int:people_id>', methods=['POST'])
 def add_favorite_personaje(people_id):
     user = Usuario.query.get(Usuario.id)
     personaje = Personaje.query.get(people_id)
@@ -96,7 +96,7 @@ def add_favorite_personaje(people_id):
     return jsonify({'msg': 'Personaje añadido a favoritos', 'personaje': personaje.nombre}), 201
 
 
-@favoritos_bp.route('/favorite/vehicle/<int:vehicle_id>', methods=['POST'])
+@favoritos_bp.route('/vehicle/<int:vehicle_id>', methods=['POST'])
 def add_favorite_vehiculo(vehicle_id):
     user = Usuario.query.get(Usuario.id)
     vehiculo = Vehiculo.query.get(vehicle_id)
