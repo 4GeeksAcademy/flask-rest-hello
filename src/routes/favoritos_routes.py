@@ -2,12 +2,12 @@ from flask import Blueprint, jsonify, request
 from models import db, Personaje, Planeta, Vehiculo, Usuario, PersonajeFavorito, PlanetaFavorito, VehiculoFavorito
 from models.database import db
 
-favoritos_bp = Blueprint('favoritos', __name__, url_prefix='/favorite')
+favoritos_bp = Blueprint('favoritos', __name__, url_prefix='/users/<int:user_id>/favorites')
 
 
 @favoritos_bp.route('/planet/<int:planet_id>', methods=['DELETE'])
-def delete_fav_planet(planet_id):
-    user_id = Usuario.query.get(Usuario.id)
+def delete_fav_planet(planet_id, user_id):
+    
     favorite = PlanetaFavorito.query.filter_by(
         usuario_id=user_id, planeta_id=planet_id).first()
 
@@ -23,8 +23,8 @@ def delete_fav_planet(planet_id):
 
 
 @favoritos_bp.route('/people/<int:people_id>', methods=['DELETE'])
-def delete_fav_person(people_id):
-    user_id = Usuario.query.get(Usuario.id)
+def delete_fav_person(people_id, user_id):
+
     favorite = PersonajeFavorito.query.filter_by(
         usuario_id=user_id, personaje_id=people_id).first()
 
@@ -40,8 +40,8 @@ def delete_fav_person(people_id):
 
 
 @favoritos_bp.route('/vehicle/<int:vehicle_id>', methods=['DELETE'])
-def delete_fav_vehiculo(vehicle_id):
-    user_id = Usuario.query.get(Usuario.id)
+def delete_fav_vehiculo(vehicle_id, user_id):
+
     favorite = VehiculoFavorito.query.filter_by(
         usuario_id=user_id, vehiculo_id=vehicle_id).first()
 
@@ -57,15 +57,15 @@ def delete_fav_vehiculo(vehicle_id):
 
 
 @favoritos_bp.route('/planet/<int:planet_id>', methods=['POST'])
-def add_favorite_planet(planet_id):
-    user = Usuario.query.get(Usuario.id)
+def add_favorite_planet(planet_id, user_id):
+    user = Usuario.query.get(user_id)
     planeta = Planeta.query.get(planet_id)
 
     if not planeta:
         return jsonify({'error': 'Planeta no encontrado'}), 404
 
     favorito_existente = next(
-        (fav for fav in user.planetas_favoritos if fav.planeta_id == planet_id), None)
+        (fav for fav in (user.planetas_favoritos or []) if fav.planeta_id == planet_id), None)
     if favorito_existente:
         return jsonify({'msg': 'El planeta ya está en favoritos'}), 400
     nuevo_favorito = PlanetaFavorito(usuario_id=user.id, planeta_id=planet_id)
@@ -76,15 +76,15 @@ def add_favorite_planet(planet_id):
 
 
 @favoritos_bp.route('/people/<int:people_id>', methods=['POST'])
-def add_favorite_personaje(people_id):
-    user = Usuario.query.get(Usuario.id)
+def add_favorite_personaje(user_id, people_id):
+    user = Usuario.query.get(user_id)
     personaje = Personaje.query.get(people_id)
 
     if not personaje:
         return jsonify({'error': 'Personaje no encontrado'}), 404
 
     favorito_existente = next(
-        (fav for fav in user.persoanjes_favoritos if fav.personaje_id == people_id), None)
+        (fav for fav in (user.personajes_favoritos or []) if fav.personaje_id == people_id), None)
     if favorito_existente:
         return jsonify({'msg': 'El personaje ya está en favoritos'}), 400
 
@@ -97,15 +97,15 @@ def add_favorite_personaje(people_id):
 
 
 @favoritos_bp.route('/vehicle/<int:vehicle_id>', methods=['POST'])
-def add_favorite_vehiculo(vehicle_id):
-    user = Usuario.query.get(Usuario.id)
+def add_favorite_vehiculo(vehicle_id, user_id):
+    user = Usuario.query.get(user_id)
     vehiculo = Vehiculo.query.get(vehicle_id)
 
     if not vehiculo:
         return jsonify({'error': 'Vehículo no encontrado'}), 404
 
     favorito_existente = next(
-        (fav for fav in user.vehiculos_favoritos if fav.vehiculo_id == vehicle_id), None)
+        (fav for fav in (user.vehiculos_favoritos or []) if fav.vehiculo_id == vehicle_id), None)
     if favorito_existente:
         return jsonify({'msg': 'El vehículo ya está en favoritos'}), 400
 

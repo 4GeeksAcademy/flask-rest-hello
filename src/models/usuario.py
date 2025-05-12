@@ -3,7 +3,7 @@ from sqlalchemy import String, Boolean, DateTime, func
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 from datetime import datetime
 from .associations import PersonajeFavorito, PlanetaFavorito, VehiculoFavorito
-
+from typing import List
 
 class Usuario(db.Model):
     __tablename__ = "usuarios"
@@ -21,11 +21,11 @@ class Usuario(db.Model):
     activo: Mapped[bool] = mapped_column(Boolean(), default=True)
 
     # Relaciones
-    planetas_favoritos: Mapped["PlanetaFavorito"] = relationship(
+    planetas_favoritos: Mapped[List["PlanetaFavorito"]] = relationship(
         "PlanetaFavorito", back_populates="usuario")
-    personajes_favoritos: Mapped["PersonajeFavorito"] = relationship(
+    personajes_favoritos: Mapped[List["PersonajeFavorito"]] = relationship(
         "PersonajeFavorito", back_populates="usuario")
-    vehiculos_favoritos: Mapped["VehiculoFavorito"] = relationship(
+    vehiculos_favoritos: Mapped[List["VehiculoFavorito"]] = relationship(
         "VehiculoFavorito", back_populates="usuario")
 
     def serialize(self):

@@ -48,12 +48,12 @@ def post_vehiculo():
         return jsonify({"error": "'tripulacion' must be a string"}), 400
     if not isinstance(request_body.get("pasajeros"), int):
         return jsonify({"error": "'pasajeros' must be a string"}), 400
-    if not isinstance(request_body.get("image_url"), str):
+    if not isinstance(request_body.get("imagen_url"), str):
         return jsonify({"error": "'imagen_url' must be a string"}), 400
     if not isinstance(request_body.get("descripcion"), str):
         return jsonify({"error": "'descripcion' must be a string"}), 400
 
-    new_vehiculo = Planeta(
+    new_vehiculo = Vehiculo(
         nombre=request_body['nombre'],
         modelo=request_body['modelo'],
         longitud=request_body['longitud'],

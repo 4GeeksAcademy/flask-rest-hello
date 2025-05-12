@@ -27,7 +27,6 @@ class Vehiculo(db.Model):
         "Personaje",
         back_populates="vehiculo",
         uselist=False,
-        foreign_keys="Personaje.vehiculo_id",
         remote_side="Personaje.vehiculo_id",
         primaryjoin="Vehiculo.id == Personaje.vehiculo_id"
     )
