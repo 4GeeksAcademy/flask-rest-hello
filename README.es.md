@@ -57,6 +57,13 @@ Si deseas visualizar la estructura de tu base de datos en forma de diagrama, pue
 $ pipenv run diagram
 ```
 
+## Regenerar toda la Base de datos
+
+Si necesitas regenerar toda la base de datos por un problema de sincronización de las versiones, puedes hacer un reset de la db con este comando: 
+```bash
+$ pipenv run reset_db
+```
+
 Este comando generará un archivo con el diagrama de la base de datos basado en los modelos definidos en `src/models.py`.
 
 ## Verifica tu API en vivo
