@@ -1,0 +1,15 @@
+{
+  "title": {
+    "en": "Flask REST Hello Template",
+    "es": "Plantilla REST con Flask"
+  },
+  "description": {
+    "en": "A minimal starter template to build REST APIs using Flask. One-click deploy to Heroku and integrated with Gitpod for ease of development.",
+    "es": "Una plantilla inicial mínima para construir APIs REST usando Flask. Despliegue con un clic en Heroku e integrada con Gitpod para facilitar el desarrollo."
+  },
+  "repository": "https://github.com/4GeeksAcademy/flask-rest-hello",
+  "preview": "https://repository-images.githubusercontent.com/176559178/ae453500-78e0-11ea-8037-165e53547738",
+  "projectType": "template",
+  "difficulty": "beginner",
+  "technologies": ["flask", "python", "api"]
+}
