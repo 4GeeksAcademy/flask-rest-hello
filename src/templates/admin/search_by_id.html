@@ -1,0 +1,25 @@
+{% extends 'admin/base.html' %} {% block body %}
+<div class="container-fluid">
+  <h2>Buscar {{ entity_name }} por ID</h2>
+
+  <form method="POST">
+    <div class="form-group">
+      <label for="object_id">ID</label>
+      <input
+        type="number"
+        id="object_id"
+        name="object_id"
+        class="form-control"
+        value="{{ object_id or '' }}"
+      />
+    </div>
+    <button type="submit" class="btn btn-primary">Buscar</button>
+  </form>
+
+  {% if result %}
+  <hr />
+  <h3>Resultado</h3>
+  <pre class="well">{{ result | tojson(indent=2) }}</pre>
+  {% endif %}
+</div>
+{% endblock %}
